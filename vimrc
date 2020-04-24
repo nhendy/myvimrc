@@ -1,3 +1,4 @@
+  
 set nocompatible
 filetype off                  " required
 
@@ -31,20 +32,45 @@ Plugin 'craigemery/vim-autotag'
 "" Also add Glaive, which is used to configure codefmt's maktaba flags. See
 "" " `:help :Glaive` for usage.
 "" Plugin 'google/vim-glaive'"
-
+" Plugin 'scrooloose/nerdtree'
+" Plugin 'mileszs/ack.vim'
+" Plugin 'kien/ctrlp.vim'
+" Plugin 'mru.vim'
+" Plugin 'jlanzarotta/bufexplorer'
+" Plugin 'chr4/nginx.vim'
+" Plugin 'amix/open_file_under_cursor.vim'
+" Plugin 'tpope/vim-commentary'
+" Plugin 'terryma/vim-expand-region'
+" Plugin 'nvie/vim-flake8'
+" Plugin 'tpope/vim-fugitive'
+" Plugin 'airblade/vim-gitgutter'
+" Plugin 'michaeljsmith/vim-indent-object'
+" Plugin 'pangloss/vim-javascript'
+" Plugin 'farmergreg/vim-lastplace'
+" Plugin 'groenewege/vim-less'
+" Plugin 'tpope/vim-markdown'
+" Plugin 'terryma/vim-multiple-cursors'
+" Plugin 'Vimjas/vim-python-pep8-indent'
+" Plugin 'tpope/vim-repeat'
+" Plugin 'MarcWeber/vim-addon-mw-utils'
+" Plugin 'tomtom/tlib_vim'
+" Plugin 'garbas/vim-snipmate'
+" Plugin 'honza/vim-snippets'
+" Plugin 'tpope/vim-surround'
+" Plugin 'maxbrunsfeld/vim-yankstack'
+" Plugin 'amix/vim-zenroom2'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-set runtimepath+=~/.vim_runtime
+ set runtimepath+=~/.vim_runtime
 
-source ~/.vim_runtime/vimrcs/basic.vim
-source ~/.vim_runtime/vimrcs/filetypes.vim
-source ~/.vim_runtime/vimrcs/plugins_config.vim
-source ~/.vim_runtime/vimrcs/extended.vim
+ source ~/.vim_runtime/vimrcs/basic.vim
+ source ~/.vim_runtime/vimrcs/filetypes.vim
+ source ~/.vim_runtime/vimrcs/plugins_config.vim
+ source ~/.vim_runtime/vimrcs/extended.vim
 
-try
-source ~/.vim_runtime/my_configs.vim
-catch
-endtry
-
+ try
+ source ~/.vim_runtime/my_configs.vim
+ catch
+ endtry
