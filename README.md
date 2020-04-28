@@ -1,10 +1,13 @@
 # myvimrc
 
 ```bash
-git clone --recursive https://github.com/nhendy/myvimrc.git ~/.vim
+git clone --recursive https://github.com/nhendy/myvimrc.git
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-mv ~/myvimrc/vimrc ~/.vimrc
-mv ~/myvimrc/.vim_runtime ~/.vim_runtime
-mv ~/myvimrc/tmux.conf ~/.tmux.conf
-mv ~/myvimrc/.tmux ~/.tmux
+ln -s myvimrc/vimrc ~/.vimrc
+ln -s myvimrc/.vim_runtime ~/.vim_runtime
+ln -s myvimrc/.tmux ~/.tmux
+ln -s myvimrc/tmux.conf ~/.tmux.conf
+# The set up ycm and install plugins using vundle
+
+# TODO automate the above
 ```
