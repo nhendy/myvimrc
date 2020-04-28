@@ -7,7 +7,7 @@ ln -s myvimrc/vimrc ~/.vimrc
 ln -s myvimrc/.vim_runtime ~/.vim_runtime
 ln -s myvimrc/.tmux ~/.tmux
 ln -s myvimrc/tmux.conf ~/.tmux.conf
-# The set up ycm and install plugins using vundle
+# then set up ycm and install plugins using vundle
 
 # TODO automate the above
 ```
