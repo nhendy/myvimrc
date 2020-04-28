@@ -43,6 +43,7 @@ Plugin 'craigemery/vim-autotag'
 " Plugin 'terryma/vim-expand-region'
 " Plugin 'nvie/vim-flake8'
 " Plugin 'tpope/vim-fugitive'
+" 
 " Plugin 'airblade/vim-gitgutter'
 " Plugin 'michaeljsmith/vim-indent-object'
 " Plugin 'pangloss/vim-javascript'
@@ -59,6 +60,7 @@ Plugin 'craigemery/vim-autotag'
 " Plugin 'tpope/vim-surround'
 " Plugin 'maxbrunsfeld/vim-yankstack'
 " Plugin 'amix/vim-zenroom2'
+Plugin 'maksimr/vim-jsbeautify'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
