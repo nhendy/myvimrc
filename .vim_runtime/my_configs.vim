@@ -60,17 +60,26 @@ endif
 let g:ycm_collect_identifiers_from_tags_files=1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_enable_diagnostic_highlighting = 0
 " let g:clang_format_executable="~/centos/usr/bin/clang-format"
 let g:go_version_warning = 0
 let g:auto_save = 1
 let g:move_map_keys =1
 let g:move_auto_indent=1
 let g:move_key_modifier='S'
+let g:ale_lint_on_enter = 0 
 let g:ale_lint_on_text_changed = 'never' 
-let g:ale_lint_on_enter = 0                                                                                                                                               
 let g:ale_lint_on_save = 0
+let g:ale_set_highlights = 0
 nmap <leader>sa :ALEFix<CR>
 nmap <leader>ss :ALELint<CR>
+autocmd Filetype tex setl updatetime=10
+let g:livepreview_previewer = 'open -a Preview'
+let g:lsp_highlights_enabled = 0
+let g:lsp_textprop_enabled = 0
+let g:lsp_signs_enabled = 0     
+let g:lsp_diagnostics_echo_cursor = 0
 " set statusline+=%{gutentags#statusline()}
 "let g:gutentags_define_advanced_commands = 1
 "" enable gtags module
@@ -87,7 +96,19 @@ nmap <leader>ss :ALELint<CR>
 "" change focus to quickfix window after search (optional).
 "let g:gutentags_plus_switch = 1
 "
-
+let g:tagbar_type_typescript = {
+  \ 'ctagstype': 'typescript',
+  \ 'kinds': [
+    \ 'c:classes',
+    \ 'n:modules',
+    \ 'f:functions',
+    \ 'v:variables',
+    \ 'v:varlambdas',
+    \ 'm:members',
+    \ 'i:interfaces',
+    \ 'e:enums',
+  \ ]
+\ }
 nnoremap yl :YcmCompleter GoToDeclaration<CR>
 nnoremap yf :YcmCompleter GoToDefinition<CR>
 nnoremap yg :YcmCompleter GoToDefinitionElseDeclaration<CR>
