@@ -26,6 +26,7 @@ inoremap kj <Esc>
 inoremap KJ <Esc>
 inoremap Kj <Esc>
 inoremap kJ <Esc>
+
 " Arrows are unvimlike 
 nnoremap <up> <nop>
 nnoremap <down> <nop>
@@ -57,11 +58,11 @@ endif
 " set path=$PWD/**
 " set path+=$PATH
 " let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
-let g:ycm_collect_identifiers_from_tags_files=1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_enable_diagnostic_signs = 0
-let g:ycm_enable_diagnostic_highlighting = 0
+" let g:ycm_collect_identifiers_from_tags_files=1
+" let g:ycm_collect_identifiers_from_comments_and_strings = 1
+" let g:ycm_collect_identifiers_from_tags_files = 1
+" let g:ycm_enable_diagnostic_signs = 0
+" let g:ycm_enable_diagnostic_highlighting = 0
 " let g:clang_format_executable="~/centos/usr/bin/clang-format"
 let g:go_version_warning = 0
 let g:auto_save = 1
@@ -74,12 +75,8 @@ let g:ale_lint_on_save = 0
 let g:ale_set_highlights = 0
 nmap <leader>sa :ALEFix<CR>
 nmap <leader>ss :ALELint<CR>
-autocmd Filetype tex setl updatetime=10
+autocmd Filetype tex setl updatetime=0.1
 let g:livepreview_previewer = 'open -a Preview'
-let g:lsp_highlights_enabled = 0
-let g:lsp_textprop_enabled = 0
-let g:lsp_signs_enabled = 0     
-let g:lsp_diagnostics_echo_cursor = 0
 " set statusline+=%{gutentags#statusline()}
 "let g:gutentags_define_advanced_commands = 1
 "" enable gtags module
@@ -96,29 +93,25 @@ let g:lsp_diagnostics_echo_cursor = 0
 "" change focus to quickfix window after search (optional).
 "let g:gutentags_plus_switch = 1
 "
-let g:tagbar_type_typescript = {
-  \ 'ctagstype': 'typescript',
-  \ 'kinds': [
-    \ 'c:classes',
-    \ 'n:modules',
-    \ 'f:functions',
-    \ 'v:variables',
-    \ 'v:varlambdas',
-    \ 'm:members',
-    \ 'i:interfaces',
-    \ 'e:enums',
-  \ ]
-\ }
+" let g:tagbar_type_typescript = {
+"   \ 'ctagstype': 'typescript',
+"   \ 'kinds': [
+"     \ 'c:classes',
+"     \ 'n:modules',
+"     \ 'f:functions',
+"     \ 'v:variables',
+"     \ 'v:varlambdas',
+"     \ 'm:members',
+"     \ 'i:interfaces',
+"     \ 'e:enums',
+"   \ ]
+" \ }
 nnoremap yl :YcmCompleter GoToDeclaration<CR>
 nnoremap yf :YcmCompleter GoToDefinition<CR>
 nnoremap yg :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" nnoremap <leader>c :FormatCode<CR> 
+nnoremap <leader>c :FormatCode<CR> 
 nmap <leader>t :TagbarToggle<CR>
 nnoremap <leader>gb :<C-u>call gitblame#echo()<CR>
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
 
 " Create a function to reload vimrc. Checks if it already exists to avoid
 " redefining the function during the function call.
@@ -126,33 +119,46 @@ nmap <leader>gh :call SwicthSourceHeader()<CR>
 " function! SourceVimrc()
 "     so ~/.vim_runtime/my_configs.vim
 " endfunction
- command! -nargs=+ Cppman silent! call system("tmux split-window cppman " . expand(<q-args>))
+ " command! -nargs=+ Cppman silent! call system("tmux split-window cppman " . expand(<q-args>))
 
-function ClangFormatFile()
- let l:lines="all"
- pyf ~/clang-format.py
-endfunction
+" function ClangFormatFile()
+"  let l:lines="all"
+"  pyf ~/clang-format.py
+" endfunction
  nnoremap <leader>c :FormatCode<cr>
  " nnoremap <leader>c :call ClangFormatFile()<cr>
 
 " nnoremap <leader>. :call SourceVimrc()<cr>
 
-nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+" nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 
 augroup autoformat_settings
-  autocmd FileType bzl AutoFormatBuffer buildifier
-  " autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
-  autocmd FileType dart AutoFormatBuffer dartfmt
-  autocmd FileType go AutoFormatBuffer gofmt
-  autocmd FileType gn AutoFormatBuffer gn
-  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-  autocmd FileType java AutoFormatBuffer google-java-format
-  autocmd FileType python AutoFormatBuffer yapf
+  " autocmd FileType bzl AutoFormatBuffer buildifier
+  " " autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+  " autocmd FileType dart AutoFormatBuffer dartfmt
+  " autocmd FileType go AutoFormatBuffer gofmt
+  " autocmd FileType gn AutoFormatBuffer gn
+  " autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+  " autocmd FileType java AutoFormatBuffer google-java-format
+  " autocmd FileType python AutoFormatBuffer yapf
   " Alternative: autocmd FileType python AutoFormatBuffer autopep8
-  autocmd FileType rust AutoFormatBuffer rustfmt
-  autocmd FileType vue AutoFormatBuffer prettier
+  " autocmd FileType rust AutoFormatBuffer rustfmt
+  " autocmd FileType vue AutoFormatBuffer prettier
 augroup END
 
+let g:rust_doc#define_map_K=0
+let g:rust_doc#downloaded_rust_doc_dir = '~/Development/rust-1.0.0-i686-unknown-linux-gnu/rust-docs'
+
+let g:pydocstring_formatter = 'google'
+nmap <silent> <C-_> <Plug>(pydocstring)
+
+if has("autocmd")
+  augroup templates
+    autocmd BufNewFile *.py 0r ~/.vim/templates/skeleton.py
+    autocmd BufNewFile *.cpp 0r ~/.vim/templates/skeleton.cpp
+    autocmd BufNewFile *_leetcode.cpp 0r ~/.vim/templates/skeleton_leetcode.cpp
+  augroup END
+endif
 
 function! GotoProtoDef()
 :  let l:fname=expand('<cfile>')
@@ -201,7 +207,6 @@ endfunction
 nnoremap ,u :call UpdateDeps()<cr>
 
 
-" Type `gd` to go to the BUILD file for this file.
 function! GoToBuild()
 python3 << EOF
 import vim
@@ -227,5 +232,27 @@ except Exception as e:
 EOF
 endfunction
 nnoremap gd :call GoToBuild()<cr>
+
+function! ExecuteBazel()
+python3 << EOF
+import vim
+import os.path
+import re
+import subprocess
+try:
+ fn = vim.current.buffer.name
+ basename = os.path.basename(fn)
+ basename, _ = os.path.splitext(basename)
+ dirname = os.path.dirname(fn)
+ res = subprocess.check_output(["bazel", "info", "workspace"]).decode()
+ target = "{prefix}:{binary}".format(prefix=re.sub(res.strip(), "/", dirname), binary=basename)
+ vim.command('vert terminal bazel run {}'.format(target))
+except Exception as e:
+  print("Something went wrong: " + str(e))
+EOF
+endfunction
+
+" nnoremap <leader>r :call ExecuteBazel()<cr>
+nnoremap <leader>r :QuickRun<cr>
 
 set gfn=Monaco:h13
