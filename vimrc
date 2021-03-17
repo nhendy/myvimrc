@@ -27,11 +27,11 @@ Plugin 'matze/vim-move'
 Plugin 'ludovicchabant/vim-gutentags'
 " Plugin 'skywind3000/gutentags_plus'
 " Plugin 'craigemery/vim-autotag'
-" Plugin '907th/vim-auto-save'
+Plugin '907th/vim-auto-save'
 "" Plugin 'neoclide/coc.nvim'
 "" Also add Glaive, which is used to configure codefmt's maktaba flags. See
 "" " `:help :Glaive` for usage.
-"" Plugin 'google/vim-glaive'"
+Plugin 'google/vim-glaive'"
 " Plugin 'scrooloose/nerdtree'
 " Plugin 'mileszs/ack.vim'
 " Plugin 'kien/ctrlp.vim'
@@ -73,18 +73,17 @@ Plugin 'mattn/vim-lsp-settings'
 Plugin 'grailbio/bazel-compilation-database'
 Plugin 'hushicai/tagbar-javascript.vim'
 Plugin 'herringtondarkholme/yats.vim'
+Plugin 'heavenshell/vim-pydocstring'
+Plugin 'rhysd/rust-doc.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 
- set runtimepath+=~/.vim_runtime
+set runtimepath+=~/.vim_runtime
 
- source ~/.vim_runtime/vimrcs/basic.vim
- source ~/.vim_runtime/vimrcs/filetypes.vim
- source ~/.vim_runtime/vimrcs/plugins_config.vim
- source ~/.vim_runtime/vimrcs/extended.vim
+source ~/.vim_runtime/vimrcs/basic.vim
+source ~/.vim_runtime/vimrcs/filetypes.vim
+source ~/.vim_runtime/vimrcs/plugins_config.vim
+source ~/.vim_runtime/vimrcs/extended.vim
+source ~/.vim_runtime/my_configs.vim
 
- try
- source ~/.vim_runtime/my_configs.vim
- catch
- endtry
