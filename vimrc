@@ -10,12 +10,11 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'google/vim-maktaba'
 Plugin 'google/vim-codefmt'
 Plugin 'valloric/youcompleteme'
-Plugin 'rdnetto/YCM-Generator'
-Plugin 'crusoexia/vim-monokai'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'majutsushi/tagbar'
 Plugin 'zivyangll/git-blame.vim'
 Plugin 'dense-analysis/ale'
+Plugin 'tpope/vim-rhubarb'
 " Plugin 'wvffle/vimterm'
 " Plugin 'prabirshrestha/async.vim'
 " Plugin 'prabirshrestha/asyncomplete.vim'
@@ -42,7 +41,7 @@ Plugin 'ludovicchabant/vim-gutentags'
 " Plugin 'tpope/vim-commentary'
 " Plugin 'terryma/vim-expand-region'
 " Plugin 'nvie/vim-flake8'
-" Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 " 
 " Plugin 'airblade/vim-gitgutter'
 " Plugin 'michaeljsmith/vim-indent-object'
@@ -60,19 +59,7 @@ Plugin 'ludovicchabant/vim-gutentags'
 " Plugin 'tpope/vim-surround'
 " Plugin 'maxbrunsfeld/vim-yankstack'
 " Plugin 'amix/vim-zenroom2'
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'junkblocker/patchreview-vim'
-Plugin 'codegram/vim-codereview'
-Plugin 'mikecoder/quickrun.vim'
-Plugin 'rhysd/open-pdf.vim'
 Plugin 'bazelbuild/vim-bazel'
-Plugin 'xuhdev/vim-latex-live-preview'
-Plugin 'prabirshrestha/async.vim'
-Plugin 'prabirshrestha/vim-lsp'
-Plugin 'mattn/vim-lsp-settings'
-Plugin 'grailbio/bazel-compilation-database'
-Plugin 'hushicai/tagbar-javascript.vim'
-Plugin 'herringtondarkholme/yats.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -83,8 +70,4 @@ filetype plugin indent on    " required
  source ~/.vim_runtime/vimrcs/filetypes.vim
  source ~/.vim_runtime/vimrcs/plugins_config.vim
  source ~/.vim_runtime/vimrcs/extended.vim
-
- try
  source ~/.vim_runtime/my_configs.vim
- catch
- endtry

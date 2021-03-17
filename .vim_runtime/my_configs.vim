@@ -13,7 +13,7 @@ set nowritebackup
 
 set cmdheight=2
 
-set updatetime=300
+set updatetime=100
 
 set shortmess+=c
 " set signcolumn=yes
@@ -54,32 +54,33 @@ if executable('gcc')
     execute 'set path+=' . fnameescape(s:line)
   endfor
 endif
+let g:github_enterprise_urls = ['https://git.zooxlabs.com']
 " set path=$PWD/**
 " set path+=$PATH
 " let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
-let g:ycm_collect_identifiers_from_tags_files=1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_enable_diagnostic_signs = 0
-let g:ycm_enable_diagnostic_highlighting = 0
-" let g:clang_format_executable="~/centos/usr/bin/clang-format"
+" let g:ycm_collect_identifiers_from_tags_files=1
+" let g:ycm_collect_identifiers_from_comments_and_strings = 1
+" let g:ycm_collect_identifiers_from_tags_files = 1
+" let g:ycm_enable_diagnostic_signs = 0
+" let g:ycm_enable_diagnostic_highlighting = 0
+let g:clang_format_executable="clang-format-3.6"
 let g:go_version_warning = 0
 let g:auto_save = 1
 let g:move_map_keys =1
 let g:move_auto_indent=1
 let g:move_key_modifier='S'
-let g:ale_lint_on_enter = 0 
-let g:ale_lint_on_text_changed = 'never' 
-let g:ale_lint_on_save = 0
-let g:ale_set_highlights = 0
+" let g:ale_lint_on_enter = 0 
+" let g:ale_lint_on_text_changed = 'never' 
+" let g:ale_lint_on_save = 0
+" let g:ale_set_highlights = 0
 nmap <leader>sa :ALEFix<CR>
 nmap <leader>ss :ALELint<CR>
 autocmd Filetype tex setl updatetime=10
-let g:livepreview_previewer = 'open -a Preview'
-let g:lsp_highlights_enabled = 0
-let g:lsp_textprop_enabled = 0
-let g:lsp_signs_enabled = 0     
-let g:lsp_diagnostics_echo_cursor = 0
+set laststatus=2
+" let g:lsp_highlights_enabled = 0
+" let g:lsp_textprop_enabled = 0
+" let g:lsp_signs_enabled = 0     
+" let g:lsp_diagnostics_echo_cursor = 0
 " set statusline+=%{gutentags#statusline()}
 "let g:gutentags_define_advanced_commands = 1
 "" enable gtags module
@@ -96,19 +97,19 @@ let g:lsp_diagnostics_echo_cursor = 0
 "" change focus to quickfix window after search (optional).
 "let g:gutentags_plus_switch = 1
 "
-let g:tagbar_type_typescript = {
-  \ 'ctagstype': 'typescript',
-  \ 'kinds': [
-    \ 'c:classes',
-    \ 'n:modules',
-    \ 'f:functions',
-    \ 'v:variables',
-    \ 'v:varlambdas',
-    \ 'm:members',
-    \ 'i:interfaces',
-    \ 'e:enums',
-  \ ]
-\ }
+" let g:tagbar_type_typescript = {
+"   \ 'ctagstype': 'typescript',
+"   \ 'kinds': [
+"     \ 'c:classes',
+"     \ 'n:modules',
+"     \ 'f:functions',
+"     \ 'v:variables',
+"     \ 'v:varlambdas',
+"     \ 'm:members',
+"     \ 'i:interfaces',
+"     \ 'e:enums',
+"   \ ]
+" \ }
 nnoremap yl :YcmCompleter GoToDeclaration<CR>
 nnoremap yf :YcmCompleter GoToDefinition<CR>
 nnoremap yg :YcmCompleter GoToDefinitionElseDeclaration<CR>
@@ -122,7 +123,6 @@ nnoremap <leader>gb :<C-u>call gitblame#echo()<CR>
 
 " Create a function to reload vimrc. Checks if it already exists to avoid
 " redefining the function during the function call.
-nmap <leader>gh :call SwicthSourceHeader()<CR>
 " function! SourceVimrc()
 "     so ~/.vim_runtime/my_configs.vim
 " endfunction
@@ -228,4 +228,45 @@ EOF
 endfunction
 nnoremap gd :call GoToBuild()<cr>
 
-set gfn=Monaco:h13
+function! ExecuteBazel()
+python3 << EOF
+import vim
+import os.path
+import re
+import subprocess
+try:
+ fn = vim.current.buffer.name
+ basename = os.path.basename(fn)
+ basename, _ = os.path.splitext(basename)
+ dirname = os.path.dirname(fn)
+ print(fn)
+ res = subprocess.check_output(["bazel", "info", "workspace"]).decode()
+ target = "{prefix}:{binary}".format(prefix=re.sub(res.strip(), "/", dirname), binary=basename)
+ vim.command('vsplit terminal bazel run {}'.format(target))
+except Exception as e:
+  print("Something went wrong: " + str(e))
+EOF
+endfunction
+function! ExecuteBazelArgs(args)
+python3 << EOF
+import vim
+import os.path
+import re
+import subprocess
+try:
+ fn = vim.current.buffer.name
+ basename = os.path.basename(fn)
+ basename, _ = os.path.splitext(basename)
+ dirname = os.path.dirname(fn)
+ res = subprocess.check_output(["bazel", "info", "workspace"]).decode()
+ target = "{prefix}:{binary}".format(prefix=re.sub(res.strip(), "/", dirname), binary=basename)
+ vim.command('vsplit terminal bazel run {} -- {}'.format(target, vim.eval("a:args")))
+except Exception as e:
+  print("Something went wrong: " + str(e))
+EOF
+endfunction
+
+nnoremap <leader>r :call ExecuteBazel()<cr>
+nnoremap <leader>R :call ExecuteBazelArgs("")
+
+nmap <leader>gh :call SwitchSourceHeader()<CR>
