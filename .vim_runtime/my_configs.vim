@@ -57,13 +57,12 @@ endif
 let g:github_enterprise_urls = ['https://git.zooxlabs.com']
 " set path=$PWD/**
 " set path+=$PATH
-" let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
 " let g:ycm_collect_identifiers_from_tags_files=1
-" let g:ycm_collect_identifiers_from_comments_and_strings = 1
-" let g:ycm_collect_identifiers_from_tags_files = 1
 " let g:ycm_enable_diagnostic_signs = 0
 " let g:ycm_enable_diagnostic_highlighting = 0
 let g:clang_format_executable="clang-format-3.6"
+let g:cpp_experimental_simple_template_highlight = 0
 let g:go_version_warning = 0
 let g:auto_save = 1
 let g:move_map_keys =1
@@ -75,8 +74,6 @@ let g:move_key_modifier='S'
 " let g:ale_set_highlights = 0
 nmap <leader>sa :ALEFix<CR>
 nmap <leader>ss :ALELint<CR>
-autocmd Filetype tex setl updatetime=10
-set laststatus=2
 " let g:lsp_highlights_enabled = 0
 " let g:lsp_textprop_enabled = 0
 " let g:lsp_signs_enabled = 0     
@@ -92,7 +89,7 @@ set laststatus=2
  " let g:gutentags_generate_on_new=1
 ""
 """ generate datebases in my cache directory, prevent gtags files polluting my project
-"let g:gutentags_cache_dir = expand('~/.cache/tags')
+let g:gutentags_cache_dir = expand('~/.cache/tags')
 
 "" change focus to quickfix window after search (optional).
 "let g:gutentags_plus_switch = 1
@@ -139,19 +136,19 @@ endfunction
 
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 
-augroup autoformat_settings
-  autocmd FileType bzl AutoFormatBuffer buildifier
-  " autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
-  autocmd FileType dart AutoFormatBuffer dartfmt
-  autocmd FileType go AutoFormatBuffer gofmt
-  autocmd FileType gn AutoFormatBuffer gn
-  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-  autocmd FileType java AutoFormatBuffer google-java-format
-  autocmd FileType python AutoFormatBuffer yapf
-  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
-  autocmd FileType rust AutoFormatBuffer rustfmt
-  autocmd FileType vue AutoFormatBuffer prettier
-augroup END
+" augroup autoformat_settings
+"   autocmd FileType bzl AutoFormatBuffer buildifier
+"   " autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+"   autocmd FileType dart AutoFormatBuffer dartfmt
+"   autocmd FileType go AutoFormatBuffer gofmt
+"   autocmd FileType gn AutoFormatBuffer gn
+"   autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+"   autocmd FileType java AutoFormatBuffer google-java-format
+"   autocmd FileType python AutoFormatBuffer yapf
+"   " Alternative: autocmd FileType python AutoFormatBuffer autopep8
+"   autocmd FileType rust AutoFormatBuffer rustfmt
+"   autocmd FileType vue AutoFormatBuffer prettier
+" augroup END
 
 
 function! GotoProtoDef()
@@ -239,10 +236,25 @@ try:
  basename = os.path.basename(fn)
  basename, _ = os.path.splitext(basename)
  dirname = os.path.dirname(fn)
- print(fn)
- res = subprocess.check_output(["bazel", "info", "workspace"]).decode()
- target = "{prefix}:{binary}".format(prefix=re.sub(res.strip(), "/", dirname), binary=basename)
- vim.command('vsplit terminal bazel run {}'.format(target))
+ target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
+ vim.command('vert terminal bazel run {}'.format(target))
+except Exception as e:
+  print("Something went wrong: " + str(e))
+EOF
+endfunction
+function! BuildBazel()
+python3 << EOF
+import vim
+import os.path
+import re
+import subprocess
+try:
+ fn = vim.current.buffer.name
+ basename = os.path.basename(fn)
+ basename, _ = os.path.splitext(basename)
+ dirname = os.path.dirname(fn)
+ target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
+ vim.command('terminal bazel build {}'.format(target))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
@@ -258,9 +270,8 @@ try:
  basename = os.path.basename(fn)
  basename, _ = os.path.splitext(basename)
  dirname = os.path.dirname(fn)
- res = subprocess.check_output(["bazel", "info", "workspace"]).decode()
- target = "{prefix}:{binary}".format(prefix=re.sub(res.strip(), "/", dirname), binary=basename)
- vim.command('vsplit terminal bazel run {} -- {}'.format(target, vim.eval("a:args")))
+ target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
+ vim.command('vert terminal bazel run {} -- {}'.format(target, vim.eval("a:args")))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
@@ -268,5 +279,6 @@ endfunction
 
 nnoremap <leader>r :call ExecuteBazel()<cr>
 nnoremap <leader>R :call ExecuteBazelArgs("")
+nnoremap <leader>B :call BuildBazel() <cr>
 
 nmap <leader>gh :call SwitchSourceHeader()<CR>
