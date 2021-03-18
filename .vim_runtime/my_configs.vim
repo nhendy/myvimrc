@@ -55,6 +55,7 @@ if executable('gcc')
   endfor
 endif
 let g:github_enterprise_urls = ['https://git.zooxlabs.com']
+autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 " set path=$PWD/**
 " set path+=$PATH
 let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
@@ -68,6 +69,7 @@ let g:auto_save = 1
 let g:move_map_keys =1
 let g:move_auto_indent=1
 let g:move_key_modifier='S'
+let g:python_highlight_all = 1
 " let g:ale_lint_on_enter = 0 
 " let g:ale_lint_on_text_changed = 'never' 
 " let g:ale_lint_on_save = 0
@@ -158,7 +160,7 @@ function! GotoProtoDef()
 endfunction
 nnoremap tp :call GotoProtoDef()<CR>
 " nnoremap ~ :Ack! "\b<C-R><C-W>\b"<CR>:cw<CR>
-noremap <Leader>a :Ack <cword><cr>
+noremap <Leader>a :Ack <cword>
 
 function! SwitchSourceHeader()
  " Get the current file extension. To see what this command is doing,
