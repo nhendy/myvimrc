@@ -59,6 +59,11 @@ autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 " set path=$PWD/**
 " set path+=$PATH
 let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
+let g:vim_markdown_folding_disabled = 1
+let g:loaded_youcompleteme = 1
+let g:deoplete#enable_at_startup = 1
+let s:molokai_original = 1
+let g:rehash256 = 0
 " let g:ycm_collect_identifiers_from_tags_files=1
 " let g:ycm_enable_diagnostic_signs = 0
 " let g:ycm_enable_diagnostic_highlighting = 0
@@ -70,6 +75,59 @@ let g:move_map_keys =1
 let g:move_auto_indent=1
 let g:move_key_modifier='S'
 let g:python_highlight_all = 1
+let g:gutentags_ctags_extra_args = [
+      \ '--tag-relative=yes',
+      \ '--fields=+ailmnS',
+      \ ]
+let g:gutentags_ctags_exclude = [
+      \ '*.git', '*.svg', '*.hg',
+      \ '*/tests/*',
+      \ 'build',
+      \ 'dist',
+      \ '*sites/*/files/*',
+      \ 'bin',
+      \ 'node_modules',
+      \ 'bower_components',
+      \ 'cache',
+      \ 'compiled',
+      \ 'docs',
+      \ 'example',
+      \ 'bundle',
+      \ 'vendor',
+      \ 'build',
+      \ 'bazel*',
+      \ '*.md',
+      \ '*-lock.json',
+      \ '*.lock',
+      \ '*bundle*.js',
+      \ '*build*.js',
+      \ '.*rc*',
+      \ '*.json',
+      \ '*.min.*',
+      \ '*.map',
+      \ '*.bak',
+      \ '*.zip',
+      \ '*.pyc',
+      \ '*.class',
+      \ '*.sln',
+      \ '*.Master',
+      \ '*.csproj',
+      \ '*.tmp',
+      \ '*.csproj.user',
+      \ '*.cache',
+      \ '*.pdb',
+      \ 'tags*',
+      \ 'cscope.*',
+      \ '*.css',
+      \ '*.less',
+      \ '*.scss',
+      \ '*.exe', '*.dll',
+      \ '*.mp3', '*.ogg', '*.flac',
+      \ '*.swp', '*.swo',
+      \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
+      \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+      \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
+      \ ]
 " let g:ale_lint_on_enter = 0 
 " let g:ale_lint_on_text_changed = 'never' 
 " let g:ale_lint_on_save = 0
@@ -80,7 +138,7 @@ nmap <leader>ss :ALELint<CR>
 " let g:lsp_textprop_enabled = 0
 " let g:lsp_signs_enabled = 0     
 " let g:lsp_diagnostics_echo_cursor = 0
-" set statusline+=%{gutentags#statusline()}
+set statusline+=%{gutentags#statusline()}
 "let g:gutentags_define_advanced_commands = 1
 "" enable gtags module
 " let g:gutentags_modules = ['ctags']
@@ -90,6 +148,7 @@ nmap <leader>ss :ALELint<CR>
  " let g:gutentags_generate_on_missing=1
  " let g:gutentags_generate_on_new=1
 ""
+let g:gutentags_generate_on_write = 1
 """ generate datebases in my cache directory, prevent gtags files polluting my project
 let g:gutentags_cache_dir = expand('~/.cache/tags')
 
@@ -158,7 +217,13 @@ function! GotoProtoDef()
 :  let l:fname = substitute(l:fname, ".pb.h", ".proto", "")
 :  execute 'edit' l:fname
 endfunction
+function! GotoProtoHeader()
+:  let l:fname=expand('<cfile>')
+:  let l:fname = "bazel-bin/" . l:fname
+:  execute 'edit' l:fname
+endfunction
 nnoremap tp :call GotoProtoDef()<CR>
+nnoremap th :call GotoProtoHeader()<CR>
 " nnoremap ~ :Ack! "\b<C-R><C-W>\b"<CR>:cw<CR>
 noremap <Leader>a :Ack <cword>
 
@@ -227,6 +292,24 @@ EOF
 endfunction
 nnoremap gd :call GoToBuild()<cr>
 
+" function! GoToProtoHeader()
+" python3 << EOF
+" import vim
+" import os.path
+" import re
+" import subprocess
+" try:
+"  fn = vim.current.buffer.name
+"  basename = os.path.basename(fn)
+"  # basename, _ = os.path.splitext(basename)
+"  dirname = os.path.dirname(fn)
+"  target = "{prefix}/{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "bazel-bin", dirname), binary=basename)
+"  print(eval("<cfile>"))
+"  #vim.command('edit {}'.format(target))
+" except Exception as e:
+"   print("Something went wrong: " + str(e))
+" EOF
+" endfunction
 function! ExecuteBazel()
 python3 << EOF
 import vim
@@ -239,7 +322,8 @@ try:
  basename, _ = os.path.splitext(basename)
  dirname = os.path.dirname(fn)
  target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
- vim.command('vert terminal bazel run {}'.format(target))
+ vim.command("vsplit")
+ vim.command('terminal bazel run {}'.format(target))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
@@ -256,7 +340,7 @@ try:
  basename, _ = os.path.splitext(basename)
  dirname = os.path.dirname(fn)
  target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
- vim.command('terminal bazel build {}'.format(target))
+ vim.command('term bazel build {}'.format(target))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
@@ -273,7 +357,8 @@ try:
  basename, _ = os.path.splitext(basename)
  dirname = os.path.dirname(fn)
  target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
- vim.command('vert terminal bazel run {} -- {}'.format(target, vim.eval("a:args")))
+ vim.command("vsplit")
+ vim.command('term bazel run {} -- {}'.format(target, vim.eval("a:args")))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
@@ -283,4 +368,16 @@ nnoremap <leader>r :call ExecuteBazel()<cr>
 nnoremap <leader>R :call ExecuteBazelArgs("")
 nnoremap <leader>B :call BuildBazel() <cr>
 
+if has('nvim')
+    tnoremap <Esc> <C-\><C-n>
+    au TermOpen  * setlocal nonumber | stopinsert
+    au TermClose * setlocal   number | call feedkeys("\<C-\>\<C-n>")
+endif
+
 nmap <leader>gh :call SwitchSourceHeader()<CR>
+function! Syn()
+  for id in synstack(line("."), col("."))
+    echo synIDattr(id, "name")
+  endfor
+endfunction
+command! -nargs=0 Syn call Syn()
