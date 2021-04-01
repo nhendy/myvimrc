@@ -60,7 +60,7 @@ autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 " set path+=$PATH
 let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
 let g:vim_markdown_folding_disabled = 1
-let g:loaded_youcompleteme = 1
+" let g:loaded_youcompleteme = 1
 let g:deoplete#enable_at_startup = 1
 let s:molokai_original = 1
 let g:rehash256 = 0
@@ -178,7 +178,10 @@ nnoremap <leader>gb :<C-u>call gitblame#echo()<CR>
 " nmap <silent> gy <Plug>(coc-type-definition)
 " nmap <silent> gi <Plug>(coc-implementation)
 " nmap <silent> gr <Plug>(coc-references)
-
+nnoremap <leader>gd :Gvdiffsplit!<CR>
+nnoremap gdh :diffget //2<CR>
+nnoremap gdl :diffget //3<CR>
+nnoremap gdh :diffget //2<cr>
 " Create a function to reload vimrc. Checks if it already exists to avoid
 " redefining the function during the function call.
 " function! SourceVimrc()
@@ -186,10 +189,10 @@ nnoremap <leader>gb :<C-u>call gitblame#echo()<CR>
 " endfunction
  command! -nargs=+ Cppman silent! call system("tmux split-window cppman " . expand(<q-args>))
 
-function ClangFormatFile()
- let l:lines="all"
- pyf ~/clang-format.py
-endfunction
+" function ClangFormatFile()
+"  let l:lines="all"
+"  pyf ~/clang-format.py
+" endfunction
  nnoremap <leader>c :FormatCode<cr>
  " nnoremap <leader>c :call ClangFormatFile()<cr>
 
@@ -340,7 +343,8 @@ try:
  basename, _ = os.path.splitext(basename)
  dirname = os.path.dirname(fn)
  target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
- vim.command('term bazel build {}'.format(target))
+ vim.command("split")
+ vim.command('terminal bazel build {}'.format(target))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
