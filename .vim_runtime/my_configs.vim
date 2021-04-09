@@ -252,7 +252,7 @@ except Exception as e:
 EOF
 endfunction
 
-" nnoremap <leader>r :call ExecuteBazel()<cr>
-nnoremap <leader>r :QuickRun<cr>
+nnoremap <leader>r :call ExecuteBazel()<cr>
+" nnoremap <leader>r :QuickRun<cr>
 
 set gfn=Monaco:h13
