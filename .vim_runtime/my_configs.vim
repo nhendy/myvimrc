@@ -115,7 +115,7 @@ nnoremap <leader>gb :<C-u>call gitblame#echo()<CR>
 
 " Create a function to reload vimrc. Checks if it already exists to avoid
 " redefining the function during the function call.
-nmap <leader>gh :call SwicthSourceHeader()<CR>
+nmap <leader>gh :call SwitchSourceHeader()<CR>
 " function! SourceVimrc()
 "     so ~/.vim_runtime/my_configs.vim
 " endfunction
