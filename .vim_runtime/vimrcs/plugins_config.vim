@@ -8,11 +8,11 @@
 """"""""""""""""""""""""""""""
 " => Load pathogen paths
 """"""""""""""""""""""""""""""
-let s:vim_runtime = expand('<sfile>:p:h')."/.."
-call pathogen#infect(s:vim_runtime.'/sources_forked/{}')
-call pathogen#infect(s:vim_runtime.'/sources_non_forked/{}')
-call pathogen#infect(s:vim_runtime.'/my_plugins/{}')
-call pathogen#helptags()
+" let s:vim_runtime = expand('<sfile>:p:h')."/.."
+" call pathogen#infect(s:vim_runtime.'/sources_forked/{}')
+" call pathogen#infect(s:vim_runtime.'/sources_non_forked/{}')
+" call pathogen#infect(s:vim_runtime.'/my_plugins/{}')
+" call pathogen#helptags()
 
 """"""""""""""""""""""""""""""
 " => bufExplorer plugin
@@ -191,6 +191,6 @@ nnoremap <silent> <leader>d :GitGutterToggle<cr>
 "       \ pumvisible() ? "\<C-n>" :
 "       \ <SID>check_back_space() ? "\<TAB>" :
 "       \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-" nmap <leader>-  <Plug>(coc-definition)
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+nmap yg  <Plug>(coc-definition)
 

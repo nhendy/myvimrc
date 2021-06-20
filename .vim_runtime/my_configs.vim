@@ -68,6 +68,7 @@ let g:rehash256 = 0
 " let g:ycm_enable_diagnostic_signs = 0
 " let g:ycm_enable_diagnostic_highlighting = 0
 let g:clang_format_executable="clang-format-3.6"
+let NERDTreeShowBookmarks = 1
 let g:cpp_experimental_simple_template_highlight = 0
 let g:go_version_warning = 0
 let g:auto_save = 1
@@ -168,9 +169,9 @@ let g:gutentags_cache_dir = expand('~/.cache/tags')
 "     \ 'e:enums',
 "   \ ]
 " \ }
-nnoremap yl :YcmCompleter GoToDeclaration<CR>
-nnoremap yf :YcmCompleter GoToDefinition<CR>
-nnoremap yg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" nnoremap yl :YcmCompleter GoToDeclaration<CR>
+" nnoremap yf :YcmCompleter GoToDefinition<CR>
+" nnoremap yg :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " nnoremap <leader>c :FormatCode<CR> 
 nmap <leader>t :TagbarToggle<CR>
 nnoremap <leader>gb :<C-u>call gitblame#echo()<CR>
@@ -182,6 +183,12 @@ nnoremap <leader>gd :Gvdiffsplit!<CR>
 nnoremap gdh :diffget //2<CR>
 nnoremap gdl :diffget //3<CR>
 nnoremap gdh :diffget //2<cr>
+let g:ycm_filepath_blacklist = {
+      \ 'html': 1,
+      \ 'proto': 1,
+      \ 'jsx': 1,
+      \ 'xml': 1,
+      \}
 " Create a function to reload vimrc. Checks if it already exists to avoid
 " redefining the function during the function call.
 " function! SourceVimrc()
@@ -213,7 +220,7 @@ nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 "   autocmd FileType rust AutoFormatBuffer rustfmt
 "   autocmd FileType vue AutoFormatBuffer prettier
 " augroup END
-
+autocmd FileType python let b:codefmt_formatter = 'yapf'
 
 function! GotoProtoDef()
 :  let l:fname=expand('<cfile>')
@@ -260,7 +267,7 @@ endfunction
 
 function! UpdateDeps()
   let l:fname=expand('%:p')
-  py3f /mnt/flashblade/carden/utils/update_deps_vim.py
+  py3f /home/nhendy/freshen_deps.py
   call input('Press any key to continue')
   redraw!
   execute 'edit' l:fname
@@ -368,6 +375,25 @@ except Exception as e:
 EOF
 endfunction
 
+function! PipedreamExecuteBazelArgs(pipeargs, args)
+python3 << EOF
+import vim
+import os.path
+import re
+import subprocess
+try:
+ fn = vim.current.buffer.name
+ basename = os.path.basename(fn)
+ basename, _ = os.path.splitext(basename)
+ dirname = os.path.dirname(fn)
+ target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
+ vim.command("vsplit")
+ vim.command('term source {}/scripts/shell/zooxrc.sh && pipedream/tools/run bazel --gpus=1 --slack_targets @nhendy --docker_args="--runtime=nvidia" --name {} {} {} -- {}'.format(os.getcwd(), basename, vim.eval("a:pipeargs"), target, vim.eval("a:args")))
+except Exception as e:
+  print("Something went wrong: " + str(e))
+EOF
+endfunction
+
 nnoremap <leader>r :call ExecuteBazel()<cr>
 nnoremap <leader>R :call ExecuteBazelArgs("")
 nnoremap <leader>B :call BuildBazel() <cr>
@@ -385,3 +411,88 @@ function! Syn()
   endfor
 endfunction
 command! -nargs=0 Syn call Syn()
+
+let s:format_script = expand('<sfile>:p:h:h') . '/scripts/format_file.py'
+
+function! ZFormatFile()
+  if empty(&filetype)
+    return
+  endif
+  mkview
+  call system([s:format_script, expand("%")]) | edit
+  silent! loadview
+endfunction
+
+if has("autocmd")
+  augroup templates
+    autocmd BufNewFile *.py 0r ~/.vim/templates/skeleton.py
+    autocmd BufNewFile *.cpp 0r ~/.vim/templates/skeleton.cpp
+    autocmd BufNewFile *_leetcode.cpp 0r ~/.vim/templates/skeleton_leetcode.cpp
+  augroup END
+endif
+
+
+" lua << EOF
+" local function setup_servers()
+"   require'lspinstall'.setup()
+"   local servers = require'lspinstall'.installed_servers()
+"   for _, server in pairs(servers) do
+"     require'lspconfig'[server].setup{}
+"   end
+" end
+
+" setup_servers()
+
+" -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
+" require'lspinstall'.post_install_hook = function ()
+"   setup_servers() -- reload installed servers
+"   vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+" end
+" EOF
+
+" lua << EOF
+" local nvim_lsp = require('lspconfig')
+
+" -- Use an on_attach function to only map the following keys 
+" -- after the language server attaches to the current buffer
+" local on_attach = function(client, bufnr)
+"   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+"   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+"   --Enable completion triggered by <c-x><c-o>
+"   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+"   -- Mappings.
+"   local opts = { noremap=true, silent=true }
+
+"   -- See `:help vim.lsp.*` for documentation on any of the below functions
+"   buf_set_keymap('n', 'yl', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+"   buf_set_keymap('n', 'yf', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+"   buf_set_keymap('n', 'yh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+"   buf_set_keymap('n', 'yg', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+"   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+"   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+"   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+"   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+"   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+"   buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+"   buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+"   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+"   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+"   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+"   buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+"   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+"   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+"   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+"   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+" end
+
+" -- Use a loop to conveniently call 'setup' on multiple servers and
+" -- map buffer local keybindings when the language server attaches
+" -- local servers = { "pyright" }
+" local servers = require'lspinstall'.installed_servers()
+" for _, lsp in ipairs(servers) do
+"   nvim_lsp[lsp].setup { on_attach = on_attach }
+" end
+" EOF
