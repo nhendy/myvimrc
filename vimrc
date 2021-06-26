@@ -75,7 +75,7 @@ Plugin 'hushicai/tagbar-javascript.vim'
 Plugin 'herringtondarkholme/yats.vim'
 Plugin 'heavenshell/vim-pydocstring'
 Plugin 'rhysd/rust-doc.vim'
-Plugin 'jalcine/cmake.vim`
+Plugin 'jalcine/cmake.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
