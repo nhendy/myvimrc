@@ -77,6 +77,7 @@ Plugin 'heavenshell/vim-pydocstring'
 Plugin 'rhysd/rust-doc.vim'
 Plugin 'jalcine/cmake.vim'
 Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/fzf'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
