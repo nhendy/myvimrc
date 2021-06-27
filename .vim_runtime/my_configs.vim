@@ -158,8 +158,8 @@ nmap <silent> <C-_> <Plug>(pydocstring)
 
  " Insert mode completion
  imap <c-x><c-k> <plug>(fzf-complete-word)
- imap <c-x><tab> <plug>(fzf-complete-path)
- " imap <c-x><c-l> <plug>(fzf-complete-line)"
+ imap <c-x><c-j> <plug>(fzf-complete-path)
+ imap <c-x><c-l> <plug>(fzf-complete-line)"
 
 if has("autocmd")
   augroup templates
