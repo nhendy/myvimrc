@@ -10,7 +10,7 @@ set number relativenumber
 set nu rnu
 set nobackup
 set nowritebackup
-
+set clipboard=unnamed
 set cmdheight=2
 
 set updatetime=300
@@ -115,7 +115,7 @@ nnoremap <leader>gb :<C-u>call gitblame#echo()<CR>
 
 " Create a function to reload vimrc. Checks if it already exists to avoid
 " redefining the function during the function call.
-nmap <leader>gh :call SwicthSourceHeader()<CR>
+nmap <leader>gh :call SwitchSourceHeader()<CR>
 " function! SourceVimrc()
 "     so ~/.vim_runtime/my_configs.vim
 " endfunction
@@ -132,25 +132,24 @@ nmap <leader>gh :call SwicthSourceHeader()<CR>
 
 " nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 
-augroup autoformat_settings
-  " autocmd FileType bzl AutoFormatBuffer buildifier
-  " " autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
-  " autocmd FileType dart AutoFormatBuffer dartfmt
-  " autocmd FileType go AutoFormatBuffer gofmt
-  " autocmd FileType gn AutoFormatBuffer gn
-  " autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-  " autocmd FileType java AutoFormatBuffer google-java-format
-  " autocmd FileType python AutoFormatBuffer yapf
-  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
-  " autocmd FileType rust AutoFormatBuffer rustfmt
-  " autocmd FileType vue AutoFormatBuffer prettier
-augroup END
+
 
 let g:rust_doc#define_map_K=0
 let g:rust_doc#downloaded_rust_doc_dir = '~/Development/rust-1.0.0-i686-unknown-linux-gnu/rust-docs'
 
 let g:pydocstring_formatter = 'google'
 nmap <silent> <C-_> <Plug>(pydocstring)
+
+" Mapping selecting mappings
+ nmap <leader><tab> <plug>(fzf-maps-n)
+ xmap <leader><tab> <plug>(fzf-maps-x)
+ omap <leader><tab> <plug>(fzf-maps-o)
+
+ " Insert mode completion
+ imap <c-x><c-k> <plug>(fzf-complete-word)
+ imap <c-x><c-p> <plug>(fzf-complete-path)
+ imap <c-x><c-l> <plug>(fzf-complete-line)"
+
 
 if has("autocmd")
   augroup templates
@@ -167,7 +166,9 @@ function! GotoProtoDef()
 endfunction
 nnoremap tp :call GotoProtoDef()<CR>
 " nnoremap ~ :Ack! "\b<C-R><C-W>\b"<CR>:cw<CR>
-noremap <Leader>a :Ack <cword><cr>
+" noremap <Leader>a :Ack <cword><cr>
+noremap <Leader>a :Ag <C-R><C-W><CR>
+" noremap <Leader>a :Tags <C-R><C-W><CR>
 
 function! SwitchSourceHeader()
  " Get the current file extension. To see what this command is doing,
