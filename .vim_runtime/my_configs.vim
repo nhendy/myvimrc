@@ -167,6 +167,7 @@ function! GotoProtoDef()
 endfunction
 nnoremap tp :call GotoProtoDef()<CR>
 " nnoremap ~ :Ack! "\b<C-R><C-W>\b"<CR>:cw<CR>
+" noremap <Leader>a :Ack <cword><cr>
 noremap <Leader>a :Ack <cword><cr>
 
 function! SwitchSourceHeader()
