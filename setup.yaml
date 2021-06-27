@@ -1,19 +1,59 @@
 - name: Install dotfiles
   hosts: localhost
   gather_facts: yes
-  become: no
+  vars:
+    vim_dir: "{{ ansible_env.HOME }}/myvimrc"
 
   tasks:
-    # - name: "Install rust"
-    #   command: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    - name: "Download rust"
+      shell: "curl --proto =https --tlsv1.2 -sSf https://sh.rustup.rs > /tmp/install_rust.sh"
+
+    - name: "Install rust"
+      shell: "sh /tmp/install_rust.sh -y"
+
+    - name: "Install z"
+      get_url:
+          url: "https://raw.githubusercontent.com/rupa/z/master/z.sh"
+          dest: "{{ ansible_env.HOME }}/z.sh"
+
+    - name: "Clone vundle"
+      git:
+        repo: "https://github.com/VundleVim/Vundle.vim.git"
+        dest: "{{ ansible_env.HOME }}/.vim/bundle/Vundle.vim"
+
+    - name: "Clone fzf"
+      git:
+        repo: "https://github.com/junegunn/fzf.git"
+        dest: "{{ ansible_env.HOME }}/.fzf"
+        depth: 1
+
+    - name: "Install fzf"
+      shell: "{{ ansible_env.HOME }}/.fzf/install"
+
+    - name: "Clone forgit"
+      git:
+        repo: "https://github.com/wfxr/forgit.git"
+        dest: "{{ ansible_env.HOME }}/.forgit.git"
 
     - name: "Install packages"
       package: 
         name:
           - zsh
           - cmatrix
+          # Needed for copying to the clipboard
+          - vim-gtk
           - ripgrep
-          - bat
-          - fzf
-        state: installed
+          # - bat
+          # - fzf
+        state: present
       become: no
+    - name: "Symlink files"
+      file:
+          src: "{{ item.path  }}"
+          dest: "{{ item.dest  }}"
+          state: link
+
+      with_items:
+          - { path: '{{ vim_dir  }}/vimrc', dest: '{{ ansible_env.HOME }}/.vimrc' }
+          - { path: '{{ vim_dir  }}/.zshrc', dest: '{{ ansible_env.HOME }}/.zshrc' }
+          - { path: '{{ vim_dir }}/.fzf_config.sh', dest: '{{ ansible_env.HOME }}/.fzf_config.sh' }
