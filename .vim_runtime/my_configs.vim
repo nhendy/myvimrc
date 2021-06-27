@@ -55,6 +55,7 @@ if executable('gcc')
     execute 'set path+=' . fnameescape(s:line)
   endfor
 endif
+autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 " set path=$PWD/**
 " set path+=$PATH
 " let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
@@ -73,7 +74,12 @@ let g:ale_lint_on_enter = 0
 let g:ale_lint_on_text_changed = 'never' 
 let g:ale_lint_on_save = 0
 let g:ale_set_highlights = 0
-nmap <leader>sa :ALEFix<CR>
+let g:ale_linters = {
+    \ 'python': ['pylint'],
+    \ 'vim': ['vint'],
+    \ 'cpp': ['clang'],
+    \ 'c': ['clang']
+    \}
 nmap <leader>ss :ALELint<CR>
 autocmd Filetype tex setl updatetime=0.1
 let g:livepreview_previewer = 'open -a Preview'
@@ -113,9 +119,10 @@ nnoremap <leader>c :FormatCode<CR>
 nmap <leader>t :TagbarToggle<CR>
 nnoremap <leader>gb :<C-u>call gitblame#echo()<CR>
 
+let NERDTreeShowBookmarks = 1
 " Create a function to reload vimrc. Checks if it already exists to avoid
 " redefining the function during the function call.
-nmap <leader>gh :call SwicthSourceHeader()<CR>
+nmap <leader>gh :call SwitchSourceHeader()<CR>
 " function! SourceVimrc()
 "     so ~/.vim_runtime/my_configs.vim
 " endfunction
@@ -245,14 +252,16 @@ try:
  basename, _ = os.path.splitext(basename)
  dirname = os.path.dirname(fn)
  res = subprocess.check_output(["bazel", "info", "workspace"]).decode()
- target = "{prefix}:{binary}".format(prefix=re.sub(res.strip(), "/", dirname), binary=basename)
+ target = "{prefix}:{binary}".format(prefix=re.sub(res.strip(), "", dirname), binary=basename)
+ print(target)
  vim.command('vert terminal bazel run {}'.format(target))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
 endfunction
 
-" nnoremap <leader>r :call ExecuteBazel()<cr>
-nnoremap <leader>r :QuickRun<cr>
+nnoremap <leader>r :call ExecuteBazel()<cr>
+" nnoremap <leader>r :QuickRun<cr>
+nnoremap <leader>R :call QuickRunWithArgs("")
 
 set gfn=Monaco:h13
