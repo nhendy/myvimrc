@@ -54,7 +54,6 @@ Plugin 'dense-analysis/ale'
 Plugin 'farmergreg/vim-lastplace'
 Plugin 'garbas/vim-snipmate'
 Plugin 'google/vim-codefmt'
-Plugin 'google/vim-glaive'
 Plugin 'google/vim-glaive'"
 Plugin 'google/vim-maktaba'
 Plugin 'grailbio/bazel-compilation-database'
