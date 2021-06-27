@@ -1,0 +1,19 @@
+- name: Install dotfiles
+  hosts: localhost
+  gather_facts: yes
+  become: no
+
+  tasks:
+    # - name: "Install rust"
+    #   command: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+    - name: "Install packages"
+      package: 
+        name:
+          - zsh
+          - cmatrix
+          - ripgrep
+          - bat
+          - fzf
+        state: installed
+      become: no
