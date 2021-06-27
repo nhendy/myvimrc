@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/noureldinhendy/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -76,6 +76,7 @@ plugins=(
     zsh-interactive-cd
     web-search
     vi-mode
+    gitfast
 )
 
 export VI_MODE_SET_CURSOR=true
@@ -84,7 +85,6 @@ export MODE_INDICATOR="%F{yellow}+%f"
 
 source $ZSH/oh-my-zsh.sh
 
-[[ -e ~/.fzf_config.sh ]] && source ~/.fzf_config.sh
 
 # User configuration
 
@@ -109,7 +109,10 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias zshconfig="$EDITOR ~/.zshrc"
+alias ohmyzsh="$EDITOR ~/.oh-my-zsh"
 
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[[ -e ~/.fzf_config.sh ]] && source ~/.fzf_config.sh

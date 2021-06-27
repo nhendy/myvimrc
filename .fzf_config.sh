@@ -48,6 +48,7 @@ elif [ -n "$BASH_VERSION" ]; then
     [ -f ~/.fzf.bash ] && source ~/.fzf.bash
     [ -d ~/.forgit.git/ ] && source ~/.forgit.git/forgit.plugin.sh
 fi
+source ~/z.sh
 
 # vf - fuzzy open with vim from anywhere
 # ex: vf word1 word2 ... (even part of a file name)
