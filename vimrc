@@ -7,10 +7,10 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 "" " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'morhetz/gruvbox'
 Plugin 'google/vim-maktaba'
 Plugin 'google/vim-codefmt'
 " Plugin 'valloric/youcompleteme'
-" Plugin 'rdnetto/YCM-Generator'
 Plugin 'crusoexia/vim-monokai'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'majutsushi/tagbar'
