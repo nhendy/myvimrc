@@ -103,6 +103,7 @@ Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'zivyangll/git-blame.vim'
 
 
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 

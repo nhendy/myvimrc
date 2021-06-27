@@ -132,25 +132,14 @@ nmap <leader>gh :call SwitchSourceHeader()<CR>
 
 " nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 
-" augroup autoformat_settings
-  " autocmd FileType bzl AutoFormatBuffer buildifier
-  " " autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
-  " autocmd FileType dart AutoFormatBuffer dartfmt
-  " autocmd FileType go AutoFormatBuffer gofmt
-  " autocmd FileType gn AutoFormatBuffer gn
-  " autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-  " autocmd FileType java AutoFormatBuffer google-java-format
-  " autocmd FileType python AutoFormatBuffer yapf
-  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
-  " autocmd FileType rust AutoFormatBuffer rustfmt
-  " autocmd FileType vue AutoFormatBuffer prettier
-" augroup END
+
 
 let g:rust_doc#define_map_K=0
 let g:rust_doc#downloaded_rust_doc_dir = '~/Development/rust-1.0.0-i686-unknown-linux-gnu/rust-docs'
 
 let g:pydocstring_formatter = 'google'
 nmap <silent> <C-_> <Plug>(pydocstring)
+
 " Mapping selecting mappings
  nmap <leader><tab> <plug>(fzf-maps-n)
  xmap <leader><tab> <plug>(fzf-maps-x)
@@ -160,6 +149,7 @@ nmap <silent> <C-_> <Plug>(pydocstring)
  imap <c-x><c-k> <plug>(fzf-complete-word)
  imap <c-x><c-p> <plug>(fzf-complete-path)
  imap <c-x><c-l> <plug>(fzf-complete-line)"
+
 
 if has("autocmd")
   augroup templates
