@@ -78,6 +78,9 @@ Plugin 'rhysd/rust-doc.vim'
 " Plugin 'jalcine/cmake.vim'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+
 
 call vundle#end()            " required
 filetype plugin indent on    " required
