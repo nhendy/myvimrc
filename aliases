@@ -1,0 +1,4 @@
+alias zshconfig="$EDITOR ~/.zshrc"
+alias ohmyzsh="$EDITOR ~/.oh-my-zsh"
+alias bcd="cd ~/Development"
+alias bcd="cd ~/Development"

@@ -1,23 +1,23 @@
-set relativenumber 
-set showmode
-set showcmd
+set clipboard=unnamed
+set cmdheight=2
 set hidden
-set wildmenu
-set wildmode=list:longest
-set shell=/bin/bash
 set mouse=a
-set number relativenumber
-set nu rnu
 set nobackup
 set nowritebackup
-
-set cmdheight=2
-
-set updatetime=100
-
+set nu rnu
+set number relativenumber
+set relativenumber 
+set shell=/bin/zsh
 set shortmess+=c
-" set signcolumn=yes
+set showcmd
+set showmode
+set signcolumn=yes
 set splitbelow
+set updatetime=100
+set updatetime=300
+set wildmenu
+set wildmode=list:longest
+
 inoremap jk <ESC>
 inoremap JK <Esc>
 inoremap jK <Esc>
@@ -220,6 +220,17 @@ let g:rust_doc#downloaded_rust_doc_dir = '~/Development/rust-1.0.0-i686-unknown-
 let g:pydocstring_formatter = 'google'
 nmap <silent> <C-_> <Plug>(pydocstring)
 
+" Mapping selecting mappings
+ nmap <leader><tab> <plug>(fzf-maps-n)
+ xmap <leader><tab> <plug>(fzf-maps-x)
+ omap <leader><tab> <plug>(fzf-maps-o)
+
+ " Insert mode completion
+ imap <c-x><c-k> <plug>(fzf-complete-word)
+ imap <c-x><c-p> <plug>(fzf-complete-path)
+ imap <c-x><c-l> <plug>(fzf-complete-line)"
+
+
 if has("autocmd")
   augroup templates
     autocmd BufNewFile *.py 0r ~/.vim/templates/skeleton.py
@@ -241,7 +252,9 @@ endfunction
 nnoremap tp :call GotoProtoDef()<CR>
 nnoremap th :call GotoProtoHeader()<CR>
 " nnoremap ~ :Ack! "\b<C-R><C-W>\b"<CR>:cw<CR>
+" noremap <Leader>a :Ack <cword><cr>
 noremap <Leader>a :Ag <C-R><C-W><CR>
+" noremap <Leader>a :Tags <C-R><C-W><CR>
 
 function! SwitchSourceHeader()
  " Get the current file extension. To see what this command is doing,

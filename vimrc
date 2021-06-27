@@ -5,7 +5,6 @@ filetype off                  " required
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-"" " let Vundle manage Vundle, required
 
 " 
 " Plugin 'MarcWeber/vim-addon-mw-utils'
@@ -15,11 +14,13 @@ call vundle#begin()
 " Plugin 'amix/vim-zenroom2'
 " Plugin 'chr4/nginx.vim'
 " Plugin 'craigemery/vim-autotag'
+" Plugin 'crusoexia/vim-monokai'
 " Plugin 'farmergreg/vim-lastplace'
 " Plugin 'garbas/vim-snipmate'
 " Plugin 'groenewege/vim-less'
 " Plugin 'honza/vim-snippets'
 " Plugin 'hrsh7th/nvim-compe' 
+" Plugin 'jalcine/cmake.vim'
 " Plugin 'jlanzarotta/bufexplorer'
 " Plugin 'kien/ctrlp.vim'
 " Plugin 'mattn/vim-lsp-settings'
@@ -46,12 +47,15 @@ call vundle#begin()
 " Plugin 'tpope/vim-repeat'
 " Plugin 'tpope/vim-surround'
 " Plugin 'valloric/youcompleteme'
+" Plugin 'wvffle/vimterm'
 "" " `:help :Glaive` for usage.
+"" " let Vundle manage Vundle, required
 "" Also add Glaive, which is used to configure codefmt's maktaba flags. See
 "" Plugin 'neoclide/coc.nvim'
 Plugin  'tell-k/vim-autoflake'
 Plugin '907th/vim-auto-save'
 Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'SirVer/ultisnips'
 Plugin 'Vimjas/vim-python-pep8-indent'
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'airblade/vim-gitgutter'
