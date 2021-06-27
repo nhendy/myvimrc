@@ -26,6 +26,7 @@ inoremap kj <Esc>
 inoremap KJ <Esc>
 inoremap Kj <Esc>
 inoremap kJ <Esc>
+
 " Arrows are unvimlike 
 nnoremap <up> <nop>
 nnoremap <down> <nop>
@@ -140,6 +141,8 @@ nmap <leader>ss :ALELint<CR>
 " let g:lsp_signs_enabled = 0     
 " let g:lsp_diagnostics_echo_cursor = 0
 set statusline+=%{gutentags#statusline()}
+autocmd Filetype tex setl updatetime=0.1
+let g:livepreview_previewer = 'open -a Preview'
 "let g:gutentags_define_advanced_commands = 1
 "" enable gtags module
 " let g:gutentags_modules = ['ctags']
@@ -189,40 +192,41 @@ let g:ycm_filepath_blacklist = {
       \ 'jsx': 1,
       \ 'xml': 1,
       \}
+nnoremap <leader>c :FormatCode<CR> 
+
 " Create a function to reload vimrc. Checks if it already exists to avoid
 " redefining the function during the function call.
 " function! SourceVimrc()
 "     so ~/.vim_runtime/my_configs.vim
 " endfunction
- command! -nargs=+ Cppman silent! call system("tmux split-window cppman " . expand(<q-args>))
+ " command! -nargs=+ Cppman silent! call system("tmux split-window cppman " . expand(<q-args>))
 
 " function ClangFormatFile()
 "  let l:lines="all"
 "  pyf ~/clang-format.py
 " endfunction
- nnoremap <leader>c :FormatCode<cr>
  command! -range=% Isort :<line1>,<line2>! isort -
  " nnoremap <leader>c :call ClangFormatFile()<cr>
 
 " nnoremap <leader>. :call SourceVimrc()<cr>
 
-nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+" nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 
-" augroup autoformat_settings
-"   autocmd FileType bzl AutoFormatBuffer buildifier
-"   " autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
-"   autocmd FileType dart AutoFormatBuffer dartfmt
-"   autocmd FileType go AutoFormatBuffer gofmt
-"   autocmd FileType gn AutoFormatBuffer gn
-"   autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-"   autocmd FileType java AutoFormatBuffer google-java-format
-"   autocmd FileType python AutoFormatBuffer yapf
-"   " Alternative: autocmd FileType python AutoFormatBuffer autopep8
-"   autocmd FileType rust AutoFormatBuffer rustfmt
-"   autocmd FileType vue AutoFormatBuffer prettier
-" augroup END
 autocmd FileType python let b:codefmt_formatter = 'yapf'
 let g:autoflake_remove_all_unused_imports=1
+let g:rust_doc#define_map_K=0
+let g:rust_doc#downloaded_rust_doc_dir = '~/Development/rust-1.0.0-i686-unknown-linux-gnu/rust-docs'
+
+let g:pydocstring_formatter = 'google'
+nmap <silent> <C-_> <Plug>(pydocstring)
+
+if has("autocmd")
+  augroup templates
+    autocmd BufNewFile *.py 0r ~/.vim/templates/skeleton.py
+    autocmd BufNewFile *.cpp 0r ~/.vim/templates/skeleton.cpp
+    autocmd BufNewFile *_leetcode.cpp 0r ~/.vim/templates/skeleton_leetcode.cpp
+  augroup END
+endif
 
 function! GotoProtoDef()
 :  let l:fname=expand('<cfile>')
@@ -277,7 +281,6 @@ endfunction
 nnoremap ,u :call UpdateDeps()<cr>
 
 
-" Type `gd` to go to the BUILD file for this file.
 function! GoToBuild()
 python3 << EOF
 import vim
