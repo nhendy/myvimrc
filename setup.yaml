@@ -51,8 +51,6 @@
           # Needed for copying to the clipboard
           - vim-gtk
           - ripgrep
-          # - bat
-          # - fzf
         state: present
       become: yes
       tags: 
@@ -67,3 +65,7 @@
           - { path: '{{ vim_dir  }}/vimrc', dest: '{{ ansible_env.HOME }}/.vimrc' }
           - { path: '{{ vim_dir  }}/.zshrc', dest: '{{ ansible_env.HOME }}/.zshrc' }
           - { path: '{{ vim_dir }}/.fzf_config.sh', dest: '{{ ansible_env.HOME }}/.fzf_config.sh' }
+          - { path: '{{ vim_dir }}/.vim_runtime', dest: '{{ ansible_env.HOME }}/.vim_runtime' }
+          - { path: '{{ vim_dir }}/.tmux', dest: '{{ ansible_env.HOME }}/.tmux' }
+          - { path: '{{ vim_dir }}/tmux.conf', dest: '{{ ansible_env.HOME }}/tmux.conf' }
+          - { path: '{{ vim_dir }}/colors', dest: '{{ ansible_env.HOME }}/colors' }
