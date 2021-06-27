@@ -151,6 +151,15 @@ let g:rust_doc#downloaded_rust_doc_dir = '~/Development/rust-1.0.0-i686-unknown-
 
 let g:pydocstring_formatter = 'google'
 nmap <silent> <C-_> <Plug>(pydocstring)
+" Mapping selecting mappings
+ nmap <leader><tab> <plug>(fzf-maps-n)
+ xmap <leader><tab> <plug>(fzf-maps-x)
+ omap <leader><tab> <plug>(fzf-maps-o)
+
+ " Insert mode completion
+ " imap <c-x><c-k> <plug>(fzf-complete-word)
+ imap <c-x><c-f> <plug>(fzf-complete-path)
+ " imap <c-x><c-l> <plug>(fzf-complete-line)"
 
 if has("autocmd")
   augroup templates
