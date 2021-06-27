@@ -48,6 +48,7 @@ Plugin 'codegram/vim-codereview'
 Plugin 'chr4/nginx.vim'
 " Plugin 'crusoexia/vim-monokai'
 Plugin 'dense-analysis/ale'
+Plugin 'dense-analysis/ale'
 Plugin 'farmergreg/vim-lastplace'
 Plugin 'google/vim-codefmt'
 Plugin 'google/vim-glaive'"
