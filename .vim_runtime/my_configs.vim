@@ -10,7 +10,7 @@ set number relativenumber
 set nu rnu
 set nobackup
 set nowritebackup
-
+set clipboard=unnamedplus
 set cmdheight=2
 
 set updatetime=300
