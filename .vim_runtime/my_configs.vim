@@ -168,7 +168,8 @@ endfunction
 nnoremap tp :call GotoProtoDef()<CR>
 " nnoremap ~ :Ack! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " noremap <Leader>a :Ack <cword><cr>
-noremap <Leader>a :Ag <C-R><C-W><CR>
+" noremap <Leader>a :Ag <C-R><C-W><CR>
+noremap <Leader>a :Tags <C-R><C-W><CR>
 
 function! SwitchSourceHeader()
  " Get the current file extension. To see what this command is doing,
