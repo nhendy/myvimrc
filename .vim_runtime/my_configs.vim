@@ -201,6 +201,7 @@ let g:ycm_filepath_blacklist = {
 "  pyf ~/clang-format.py
 " endfunction
  nnoremap <leader>c :FormatCode<cr>
+ command! -range=% Isort :<line1>,<line2>! isort -
  " nnoremap <leader>c :call ClangFormatFile()<cr>
 
 " nnoremap <leader>. :call SourceVimrc()<cr>
@@ -221,6 +222,7 @@ nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 "   autocmd FileType vue AutoFormatBuffer prettier
 " augroup END
 autocmd FileType python let b:codefmt_formatter = 'yapf'
+let g:autoflake_remove_all_unused_imports=1
 
 function! GotoProtoDef()
 :  let l:fname=expand('<cfile>')
@@ -235,7 +237,7 @@ endfunction
 nnoremap tp :call GotoProtoDef()<CR>
 nnoremap th :call GotoProtoHeader()<CR>
 " nnoremap ~ :Ack! "\b<C-R><C-W>\b"<CR>:cw<CR>
-noremap <Leader>a :Ack <cword>
+noremap <Leader>a :Ag <C-R><C-W><CR>
 
 function! SwitchSourceHeader()
  " Get the current file extension. To see what this command is doing,
@@ -267,7 +269,7 @@ endfunction
 
 function! UpdateDeps()
   let l:fname=expand('%:p')
-  py3f /home/nhendy/freshen_deps.py
+  py3f /home/nhendy/update_deps_vim.py
   call input('Press any key to continue')
   redraw!
   execute 'edit' l:fname
@@ -388,7 +390,7 @@ try:
  dirname = os.path.dirname(fn)
  target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
  vim.command("vsplit")
- vim.command('term source {}/scripts/shell/zooxrc.sh && pipedream/tools/run bazel --gpus=1 --slack_targets @nhendy --docker_args="--runtime=nvidia" --name {} {} {} -- {}'.format(os.getcwd(), basename, vim.eval("a:pipeargs"), target, vim.eval("a:args")))
+ vim.command('term source {}/scripts/shell/zooxrc.sh && pipedream/tools/run bazel --slack_targets @nhendy --name {} {} {} -- {}'.format(os.getcwd(), basename, vim.eval("a:pipeargs"), target, vim.eval("a:args")))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
@@ -430,7 +432,14 @@ if has("autocmd")
     autocmd BufNewFile *_leetcode.cpp 0r ~/.vim/templates/skeleton_leetcode.cpp
   augroup END
 endif
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
 
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-p> <plug>(fzf-complete-path)
+imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " lua << EOF
 " local function setup_servers()
