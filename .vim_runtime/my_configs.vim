@@ -1,23 +1,22 @@
-set relativenumber 
-set showmode
-set showcmd
-set hidden
-set wildmenu
-set wildmode=list:longest
-set shell=/bin/bash
-set mouse=a
-set number relativenumber
-set nu rnu
-set nobackup
-set nowritebackup
+" set signcolumn=yes
 set clipboard=unnamed
 set cmdheight=2
-
-set updatetime=300
-
+set hidden
+set mouse=a
+set nobackup
+set nowritebackup
+set nu rnu
+set number relativenumber
+set relativenumber 
+set shell=/bin/zsh
 set shortmess+=c
-" set signcolumn=yes
+set showcmd
+set showmode
 set splitbelow
+set updatetime=300
+set wildmenu
+set wildmode=list:longest
+
 inoremap jk <ESC>
 inoremap JK <Esc>
 inoremap jK <Esc>

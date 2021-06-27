@@ -109,10 +109,10 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias zshconfig="$EDITOR ~/.zshrc"
-alias ohmyzsh="$EDITOR ~/.oh-my-zsh"
 
-
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
+fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [[ -e ~/.fzf_config.sh ]] && source ~/.fzf_config.sh

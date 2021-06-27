@@ -69,3 +69,6 @@
           - { path: '{{ vim_dir }}/.tmux', dest: '{{ ansible_env.HOME }}/.tmux' }
           - { path: '{{ vim_dir }}/tmux.conf', dest: '{{ ansible_env.HOME }}/tmux.conf' }
           - { path: '{{ vim_dir }}/colors', dest: '{{ ansible_env.HOME }}/colors' }
+          - { path: '{{ vim_dir }}/aliases', dest: '{{ ansible_env.HOME }}/.aliases' }
+      tags: 
+        - symlinks
