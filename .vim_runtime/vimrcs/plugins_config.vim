@@ -48,7 +48,7 @@ let g:ctrlp_working_path_mode = 0
 
 " let g:ctrlp_map = '<c-f>'
 " map <leader>j :CtrlP<cr>
-map <leader>j :Files<cr>
+map <c-f> :Files<cr>
 " map <c-b> :CtrlPBuffer<cr>
 map <c-b> :Buffers<cr>
 
