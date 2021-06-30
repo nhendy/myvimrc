@@ -105,9 +105,9 @@ let g:livepreview_previewer = 'open -a Preview'
 "     \ 'e:enums',
 "   \ ]
 " \ }
-nnoremap yl :YcmCompleter GoToDeclaration<CR>
-nnoremap yf :YcmCompleter GoToDefinition<CR>
-nnoremap yg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" nnoremap yl :YcmCompleter GoToDeclaration<CR>
+" nnoremap yf :YcmCompleter GoToDefinition<CR>
+" nnoremap yg :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <leader>c :FormatCode<CR> 
 nmap <leader>t :TagbarToggle<CR>
 nnoremap <leader>gb :<C-u>call gitblame#echo()<CR>
