@@ -194,5 +194,5 @@ nnoremap <silent> <leader>d :GitGutterToggle<cr>
 "       \ <SID>check_back_space() ? "\<TAB>" :
 "       \ coc#refresh()
 " inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-" nmap <leader>-  <Plug>(coc-definition)
+nmap yg  <Plug>(coc-definition)
 
