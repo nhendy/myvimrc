@@ -102,7 +102,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'wvffle/vimterm'
 Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'zivyangll/git-blame.vim'
-
+Plugin 'rust-lang/rust.vim'
 
 
 call vundle#end()            " required
