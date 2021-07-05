@@ -269,8 +269,8 @@ try:
    exists, buildfile, fn = look_above(fn)
    if exists:
      print("found!!!",buildfile)
-     vim.command('edit ' + buildfile)
-     vim.command('call search("\\"' + basename + '\\"")')
+     vim.command('call ExecuteBazel()')
+     vim.command('QuickRun')
      break
 except Exception as e:
   print("Something went wrong: " + str(e))
