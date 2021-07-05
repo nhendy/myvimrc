@@ -278,6 +278,6 @@ EOF
 endfunction
 
 " nnoremap <leader>r :call ExecuteBazel()<cr>
-nnoremap <leader>r :QuickRun<cr>
+nnoremap <leader>r :call Run()<cr>
 
 set gfn=Monaco:h13
