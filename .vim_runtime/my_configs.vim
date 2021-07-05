@@ -252,6 +252,31 @@ except Exception as e:
 EOF
 endfunction
 
+function! Run()
+python3 << EOF
+import vim
+import os.path
+
+def look_above(filepath):
+ dirpath, _, basename = fn.rpartition('/')
+ buildfile = os.path.join(dirpath, 'BUILD')
+ return os.path.exists(buildfile), buildfile, dirpath
+
+try:
+ fn = vim.current.buffer.name
+ _, _, basename = fn.rpartition('/')
+ while fn:
+   exists, buildfile, fn = look_above(fn)
+   if exists:
+     print("found!!!",buildfile)
+     vim.command('edit ' + buildfile)
+     vim.command('call search("\\"' + basename + '\\"")')
+     break
+except Exception as e:
+  print("Something went wrong: " + str(e))
+EOF
+endfunction
+
 " nnoremap <leader>r :call ExecuteBazel()<cr>
 nnoremap <leader>r :QuickRun<cr>
 
