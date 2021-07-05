@@ -270,8 +270,9 @@ try:
    if exists:
      print("found!!!",buildfile)
      vim.command('call ExecuteBazel()')
-     break
-   print(vim.command('QuickRun'))
+     exit()
+   
+ print(vim.command('QuickRun'))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
