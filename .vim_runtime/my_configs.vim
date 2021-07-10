@@ -268,10 +268,10 @@ try:
  while fn:
    exists, buildfile, fn = look_above(fn)
    if exists:
+
      print("found!!!",buildfile)
      vim.command('call ExecuteBazel()')
      exit()
-   
  print(vim.command('QuickRun'))
 except Exception as e:
   print("Something went wrong: " + str(e))
