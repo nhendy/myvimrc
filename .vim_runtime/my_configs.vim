@@ -265,13 +265,16 @@ def look_above(filepath):
 try:
  fn = vim.current.buffer.name
  _, _, basename = fn.rpartition('/')
+ ran = False
  while fn:
    exists, buildfile, fn = look_above(fn)
    if exists:
      print("found {}!!!".format(buildfile))
      vim.command('call ExecuteBazel()')
-     exit()
- print(vim.command('QuickRun'))
+     ran = True
+     break
+ if not ran:
+    print(vim.command('QuickRun'))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
