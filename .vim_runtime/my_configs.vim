@@ -268,8 +268,7 @@ try:
  while fn:
    exists, buildfile, fn = look_above(fn)
    if exists:
-
-     print("found!!!",buildfile)
+     print("found {}!!!".format(buildfile))
      vim.command('call ExecuteBazel()')
      exit()
  print(vim.command('QuickRun'))
