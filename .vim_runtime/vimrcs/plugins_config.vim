@@ -21,7 +21,8 @@ let g:bufExplorerDefaultHelp=1
 let g:bufExplorerShowRelativePath=1
 let g:bufExplorerFindActive=1
 let g:bufExplorerSortBy='name'
-map <leader>o :BufExplorer<cr>
+" map <leader>o :BufExplorer<cr>
+map <leader>o :Buffers<cr>
 
 
 """"""""""""""""""""""""""""""
@@ -46,10 +47,10 @@ nmap <c-n> <Plug>yankstack_substitute_newer_paste
 """"""""""""""""""""""""""""""
 let g:ctrlp_working_path_mode = 0
 
-let g:ctrlp_map = '<c-f>'
+" let g:ctrlp_map = '<c-f>'
 " map <leader>j :CtrlP<cr>
-map <leader>j :Files<cr>
-map <c-b> :CtrlPBuffer<cr>
+map <c-f> :Files<cr>
+" map <c-b> :CtrlPBuffer<cr>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
@@ -116,31 +117,31 @@ au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
 " => lightline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
+  \ 'colorscheme': 'wombat',
+  \ }
 
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ ['mode', 'paste'],
-      \             ['fugitive', 'readonly', 'filename', 'modified'], ['tagbar']],
-      \   'right': [ [ 'lineinfo' ], ['percent'],]
-      \ },
-      \ 'component': {
-      \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
-      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}',
-      \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}'
-      \ },
-      \ 'component_visible_condition': {
-      \   'readonly': '(&filetype!="help"&& &readonly)',
-      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())',
-      \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}'
-      \ },
-      \ 'separator': { 'left': ' ', 'right': ' ' },
-      \ 'subseparator': { 'left': ' ', 'right': ' ' }
-      \ }
+  \ 'colorscheme': 'wombat',
+  \ 'active': {
+  \   'left': [ ['mode', 'paste'],
+  \             ['fugitive', 'readonly', 'filename', 'modified'], ['tagbar']],
+  \   'right': [ [ 'lineinfo' ], ['percent'],]
+  \ },
+  \ 'component': {
+  \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
+  \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+  \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}',
+  \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}'
+  \ },
+  \ 'component_visible_condition': {
+  \   'readonly': '(&filetype!="help"&& &readonly)',
+  \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+  \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())',
+  \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}'
+  \ },
+  \ 'separator': { 'left': ' ', 'right': ' ' },
+  \ 'subseparator': { 'left': ' ', 'right': ' ' }
+  \ }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vimroom

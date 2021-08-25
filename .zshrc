@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="dpoggi"
+ZSH_THEME="simple"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -73,10 +73,16 @@ ZSH_THEME="dpoggi"
 plugins=(
     # git
     cp
-    zsh-interactive-cd
-    web-search
+    # zsh-interactive-cd
+    # web-search
     vi-mode
     gitfast
+    # timer
+    # git-prompt
+    tmux
+    alias-finder
+    fancy-ctrl-z
+    git
 )
 
 export VI_MODE_SET_CURSOR=true
@@ -116,3 +122,9 @@ fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [[ -e ~/.fzf_config.sh ]] && source ~/.fzf_config.sh
+
+export PATH=$PATH:~/clangd_12.0.0/bin
+. "$HOME/.cargo/env"
+export GLOG_colorlogtostderr=1
+export GLOG_logtostderr=1
+# source ~/powerlevel10k/powerlevel10k.zsh-theme

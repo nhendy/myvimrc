@@ -1,4 +1,16 @@
 alias zshconfig="$EDITOR ~/.zshrc"
 alias ohmyzsh="$EDITOR ~/.oh-my-zsh"
-alias bcd="cd ~/Development"
-alias bcd="cd ~/Development"
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias bcd1="cd $HOME/driving/; source scripts/shell/zooxrc.sh"
+alias bcd2="cd $HOME/driving2/; source scripts/shell/zooxrc.sh"
+alias bcd3="cd $HOME/driving3/; source scripts/shell/zooxrc.sh"
+alias bcd4="cd $HOME/driving4/; source scripts/shell/zooxrc.sh"
+alias bcd5="cd $HOME/driving5/; source scripts/shell/zooxrc.sh"
+alias bcd6="cd $HOME/driving6/; source scripts/shell/zooxrc.sh"
+alias maketas="ctags --languages='c,c++<Plug>PeepOpenrotobuf' --recurse=yes --tag-relative=yes --exclude='build' --exclude='bazel*' --exclude='.git' --totals"
+alias runtb="docker run --net=host -it -v /tmp:/tmp -v /mnt:/mnt tensorflow/tensorflow:2.3.0 tensorboard --logdir $PWD --bind_all"
+alias gp="git push -u"
+alias nvim="CUDA_VISIBLE_DEVICES=1 nvim"

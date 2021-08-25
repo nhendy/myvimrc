@@ -17,6 +17,8 @@
       get_url:
           url: "https://raw.githubusercontent.com/rupa/z/master/z.sh"
           dest: "{{ ansible_env.HOME }}/z.sh"
+      tags:
+          - z
 
     - name: "Clone vundle"
       git:
@@ -28,9 +30,13 @@
         repo: "https://github.com/junegunn/fzf.git"
         dest: "{{ ansible_env.HOME }}/.fzf"
         depth: 1
+      tags:
+          - fzf
 
     - name: "Install fzf"
       shell: "{{ ansible_env.HOME }}/.fzf/install"
+      tags:
+          - fzf
 
     - name: "Install bat"
       shell: "cargo install bat"
@@ -41,6 +47,8 @@
       git:
         repo: "https://github.com/wfxr/forgit.git"
         dest: "{{ ansible_env.HOME }}/.forgit.git"
+      tags:
+          - forgit
 
     - name: "Install packages"
       package: 
@@ -62,13 +70,13 @@
           state: link
 
       with_items:
-          - { path: '{{ vim_dir  }}/vimrc', dest: '{{ ansible_env.HOME }}/.vimrc' }
+          # - { path: '{{ vim_dir  }}/vimrc', dest: '{{ ansible_env.HOME }}/.vimrc' }
           - { path: '{{ vim_dir  }}/.zshrc', dest: '{{ ansible_env.HOME }}/.zshrc' }
           - { path: '{{ vim_dir }}/.fzf_config.sh', dest: '{{ ansible_env.HOME }}/.fzf_config.sh' }
-          - { path: '{{ vim_dir }}/.vim_runtime', dest: '{{ ansible_env.HOME }}/.vim_runtime' }
-          - { path: '{{ vim_dir }}/.tmux', dest: '{{ ansible_env.HOME }}/.tmux' }
-          - { path: '{{ vim_dir }}/tmux.conf', dest: '{{ ansible_env.HOME }}/tmux.conf' }
-          - { path: '{{ vim_dir }}/colors', dest: '{{ ansible_env.HOME }}/colors' }
+          # - { path: '{{ vim_dir }}/.vim_runtime', dest: '{{ ansible_env.HOME }}/.vim_runtime' }
+          # - { path: '{{ vim_dir }}/.tmux', dest: '{{ ansible_env.HOME }}/.tmux' }
+          # - { path: '{{ vim_dir }}/tmux.conf', dest: '{{ ansible_env.HOME }}/tmux.conf' }
+          # - { path: '{{ vim_dir }}/colors', dest: '{{ ansible_env.HOME }}/colors' }
           - { path: '{{ vim_dir }}/aliases', dest: '{{ ansible_env.HOME }}/.aliases' }
       tags: 
         - symlinks

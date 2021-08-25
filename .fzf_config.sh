@@ -152,18 +152,18 @@ _fzf_compgen_dir() {
 #       ([ -n "$ZSH_NAME"  ] && fc -l 1 || history) | fzf +s --tac | sed -e 's/^\s*[0-9]+\s*//' | writecmd
 
 # }
-# alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
-# _gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
-# _viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
+alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
+_gitLogLineToHash="echo {} | ag '[a-f0-9]\{7\}' | head -1"
+_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
 
-# # fcoc_preview - checkout git commit with previews
-# fcoc_preview() {
-#   local commit
-#   commit=$( glNoGraph |
-#     fzf --no-sort --reverse --tiebreak=index --no-multi \
-#         --ansi --preview="$_viewGitLogLine" ) &&
-#   git checkout $(echo "$commit" | sed "s/ .*//")
-# }
+# fcoc_preview - checkout git commit with previews
+fcoc_preview() {
+  local commit
+  commit=$( glNoGraph |
+    fzf --no-sort --reverse --tiebreak=index --no-multi \
+        --ansi --preview="$_viewGitLogLine" ) &&
+  git checkout $(echo "$commit" | sed "s/ .*//")
+}
 
 # # fshow_preview - git commit browser with previews
 # fshow_preview() {
@@ -209,14 +209,26 @@ z() {
   fi
 }
 
+
+
 zz() {
   cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q "$_last_z_args")"
 }
+
+# fbr - checkout git branch (including remote branches)
+fbr() {
+  local branches branch
+  branches=$(git branch --all | grep -v HEAD) &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
 alias j=z
 alias jj=zz
-export EDITOR=vim
+export EDITOR=nvim
+export CLIPBOARD="xsel -b"
 export FD_OPTIONS="--hidden --follow --ignore-file ~/.ignore"
-export FZF_DEFAULT_OPTS="--no-mouse --height 80% --reverse --multi --info=inline --preview='$HOME/.vim/bundle/fzf.vim/bin/preview.sh {}' --preview-window='right:60%:wrap' --bind='f2:toggle-preview,f3:execute(bat --style=numbers {} || less -f {}),alt-o:execute(vim {}),alt-w:toggle-preview-wrap,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-y:execute-silent(echo {+} | pbcopy),ctrl-x:execute(rm -i {+})+abort,ctrl-l:clear-query,alt-k:preview-page-up,alt-j:preview-page-down'"
+export FZF_DEFAULT_OPTS="--no-mouse --height 50% --reverse --multi --info=inline --preview='$HOME/.vim/bundle/fzf.vim/bin/preview.sh {}' --preview-window='right:50%:wrap' --bind='f2:toggle-preview,f3:execute(bat --style=numbers {} || less -f {}),alt-o:execute($EDITOR {}),alt-w:toggle-preview-wrap,ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-y:execute-silent(echo {+} | $CLIPBOARD),ctrl-x:execute(rm -i {+})+abort,ctrl-l:clear-query,alt-k:preview-page-up,alt-j:preview-page-down'"
 export FZF_DEFAULT_COMMAND="git ls-files --cached --others --exclude-standard 2>/dev/null || fd --type f --type l $FD_OPTIONS"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type d $FD_OPTIONS"

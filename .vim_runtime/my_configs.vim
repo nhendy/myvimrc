@@ -1,4 +1,5 @@
-set clipboard=unnamed
+" set clipboard+=unnamedplus
+" set clipboard+=unnamed
 set cmdheight=2
 set hidden
 set mouse=a
@@ -75,6 +76,7 @@ let g:go_version_warning = 0
 let g:auto_save = 1
 let g:move_map_keys =1
 let g:move_auto_indent=1
+" let g:fzf_layout = { 'down': '50%' }
 let g:move_key_modifier='S'
 let g:python_highlight_all = 1
 let g:gutentags_ctags_extra_args = [
@@ -155,7 +157,10 @@ let g:livepreview_previewer = 'open -a Preview'
 let g:gutentags_generate_on_write = 1
 """ generate datebases in my cache directory, prevent gtags files polluting my project
 let g:gutentags_cache_dir = expand('~/.cache/tags')
-
+let g:doge_enable_mappings=0 
+let g:doge_mapping='<leader>`'
+let g:doge_doc_standard_cpp = 'doxygen_javadoc'
+autocmd FileType python let b:codefmt_formatter = 'black'
 "" change focus to quickfix window after search (optional).
 "let g:gutentags_plus_switch = 1
 "
@@ -193,6 +198,7 @@ let g:ycm_filepath_blacklist = {
       \ 'xml': 1,
       \}
 nnoremap <leader>c :FormatCode<CR> 
+let g:coc_node_path="/home/nhendy/node-v14.17.1-linux-x64/bin/node"
 
 " Create a function to reload vimrc. Checks if it already exists to avoid
 " redefining the function during the function call.
@@ -212,7 +218,7 @@ nnoremap <leader>c :FormatCode<CR>
 
 " nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 
-autocmd FileType python let b:codefmt_formatter = 'yapf'
+autocmd FileType python let b:codefmt_formatter = 'black'
 let g:autoflake_remove_all_unused_imports=1
 let g:rust_doc#define_map_K=0
 let g:rust_doc#downloaded_rust_doc_dir = '~/Development/rust-1.0.0-i686-unknown-linux-gnu/rust-docs'
@@ -228,7 +234,7 @@ nmap <silent> <C-_> <Plug>(pydocstring)
  " Insert mode completion
  imap <c-x><c-k> <plug>(fzf-complete-word)
  imap <c-x><c-p> <plug>(fzf-complete-path)
- imap <c-x><c-l> <plug>(fzf-complete-line)"
+ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 
 if has("autocmd")
@@ -242,6 +248,7 @@ endif
 function! GotoProtoDef()
 :  let l:fname=expand('<cfile>')
 :  let l:fname = substitute(l:fname, ".pb.h", ".proto", "")
+:  let l:fname = substitute(l:fname, ".hpp", ".proto", "")
 :  execute 'edit' l:fname
 endfunction
 function! GotoProtoHeader()
@@ -406,7 +413,7 @@ try:
  dirname = os.path.dirname(fn)
  target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
  vim.command("vsplit")
- vim.command('term source {}/scripts/shell/zooxrc.sh && pipedream/tools/run bazel --slack_targets @nhendy --name {} {} {} -- {}'.format(os.getcwd(), basename, vim.eval("a:pipeargs"), target, vim.eval("a:args")))
+ vim.command('term source {}/scripts/shell/zooxrc.sh && pipedream/tools/run bazel --gpus=1 --docker_args="--runtime=nvidia" --slack_targets @nhendy --name {} {} {} -- {}'.format(os.getcwd(), basename, vim.eval("a:pipeargs"), target, vim.eval("a:args")))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
@@ -445,7 +452,6 @@ if has("autocmd")
   augroup templates
     autocmd BufNewFile *.py 0r ~/.vim/templates/skeleton.py
     autocmd BufNewFile *.cpp 0r ~/.vim/templates/skeleton.cpp
-    autocmd BufNewFile *_leetcode.cpp 0r ~/.vim/templates/skeleton_leetcode.cpp
   augroup END
 endif
 nmap <leader><tab> <plug>(fzf-maps-n)
