@@ -117,3 +117,6 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [[ -e ~/.fzf_config.sh ]] && source ~/.fzf_config.sh
 . "$HOME/.cargo/env"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
