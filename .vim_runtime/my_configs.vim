@@ -8,7 +8,7 @@ set nowritebackup
 set nu rnu
 set number relativenumber
 set relativenumber 
-set shell=/bin/zsh
+set shell=/bin/bash
 set shortmess+=c
 set showcmd
 set showmode
@@ -376,7 +376,7 @@ try:
  dirname = os.path.dirname(fn)
  target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
  vim.command("split")
- vim.command('terminal bazel build {}'.format(target))
+ vim.command('terminal source /home/nhendy/.bashrc && inorun bazel build {}'.format(target))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
@@ -413,7 +413,28 @@ try:
  dirname = os.path.dirname(fn)
  target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
  vim.command("vsplit")
- vim.command('term source {}/scripts/shell/zooxrc.sh && pipedream/tools/run bazel --gpus=1 --docker_args="--runtime=nvidia" --slack_targets @nhendy --name {} {} {} -- {}'.format(os.getcwd(), basename, vim.eval("a:pipeargs"), target, vim.eval("a:args")))
+ vim.command('term source {}/scripts/shell/zooxrc.sh && pipedream/tools/run bazel  --slack_targets @nhendy --name {} {} {} -- {}'.format(os.getcwd(), basename, vim.eval("a:pipeargs"), target, vim.eval("a:args")))
+except Exception as e:
+  print("Something went wrong: " + str(e))
+EOF
+endfunction
+function! RunSafetyNet()
+python3 << EOF
+import vim
+try:
+ target = "//vehicle/perception/learning/safetynet:run_safetynet"
+ vim.command("vsplit")
+ vim.command('term bazel run {}'.format(target))
+except Exception as e:
+  print("Something went wrong: " + str(e))
+EOF
+endfunction
+function! RunSafetyNetArgs(args)
+python3 << EOF
+import vim
+try:
+ vim.command("vsplit")
+ vim.command('term source ~/.bashrc && snet_offline {}'.format(vim.eval("a:args")))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
@@ -422,6 +443,8 @@ endfunction
 nnoremap <leader>r :call ExecuteBazel()<cr>
 nnoremap <leader>R :call ExecuteBazelArgs("")
 nnoremap <leader>B :call BuildBazel() <cr>
+nnoremap <leader>. :call RunSafetyNet() <cr>
+nnoremap <leader>, :call RunSafetyNetArgs("") 
 
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
