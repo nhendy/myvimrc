@@ -65,7 +65,8 @@ endif
 " let g:clang_format_executable="~/centos/usr/bin/clang-format"
 let g:go_version_warning = 0
 let g:auto_save = 1
-let g:move_map_keys =1
+l
+t g:move_map_keys =1
 let g:move_auto_indent=1
 let g:move_key_modifier='S'
 let g:ale_lint_on_enter = 0 
