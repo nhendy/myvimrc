@@ -75,8 +75,8 @@ let g:ale_lint_on_save = 0
 let g:ale_set_highlights = 0
 nnoremap vv :vsplit<CR>
 nnoremap vs :split<CR>
-nmap <leader>sa :ALEFix<CR>
-nmap <leader>ss :ALELint<CR>
+" nmap <leader>sa :ALEFix<CR>
+" nmap <leader>ss :ALELint<CR>
 autocmd Filetype tex setl updatetime=0.1
 let g:livepreview_previewer = 'open -a Preview'
 " set statusline+=%{gutentags#statusline()}
@@ -171,7 +171,8 @@ nnoremap tp :call GotoProtoDef()<CR>
 " nnoremap ~ :Ack! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " noremap <Leader>a :Ack <cword><cr>
 noremap <Leader>a :Ag <C-R><C-W><CR>
-" noremap <Leader>a :Tags <C-R><C-W><CR>
+noremap <Leader>s :Tags <C-R><C-W><CR>
+noremap <Leader>ss :tselect <C-R><C-W><CR>
 
 function! SwitchSourceHeader()
  " Get the current file extension. To see what this command is doing,
