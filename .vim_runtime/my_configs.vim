@@ -283,7 +283,7 @@ try:
  if not ran:
     # print(vim.command('QuickRun'))
     vim.command("vsplit")
-    vim.command('terminal bazel run {}'.format(target))
+    vim.command('QuickRun')
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
