@@ -275,13 +275,15 @@ try:
    exists, buildfile, fn = look_above(fn)
    if exists:
      print("found {}!!!".format(buildfile))
-     vim.command('call ExecuteBazel()')
+     # vim.command('call ExecuteBazel()')
      vim.command("vsplit")
      vim.command('terminal bazel run {}'.format(target))
      ran = True
      break
  if not ran:
-    print(vim.command('QuickRun'))
+    # print(vim.command('QuickRun'))
+    vim.command("vsplit")
+    vim.command('terminal bazel run {}'.format(target))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
