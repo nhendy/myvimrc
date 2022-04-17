@@ -276,6 +276,8 @@ try:
    if exists:
      print("found {}!!!".format(buildfile))
      vim.command('call ExecuteBazel()')
+     vim.command("vsplit")
+     vim.command('terminal bazel run {}'.format(target))
      ran = True
      break
  if not ran:
