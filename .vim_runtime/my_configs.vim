@@ -1,5 +1,5 @@
-" set clipboard+=unnamedplus
 " set clipboard+=unnamed
+" set clipboard+=unnamedplus
 set cmdheight=2
 set hidden
 set mouse=a
@@ -60,7 +60,14 @@ let g:github_enterprise_urls = ['https://git.zooxlabs.com']
 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 " set path=$PWD/**
 " set path+=$PATH
-let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf='~/ycm_extra_conf.py'
+let g:ycm_log_level = 'debug'
+let g:ycm_server_log_level = 'debug'
+let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_collect_identifiers_from_tags_files=1
+let g:ycm_error_symbol = '>>'
+let g:ycm_warning_symbol = '!'
+
 let g:vim_markdown_folding_disabled = 1
 " let g:loaded_youcompleteme = 1
 let g:deoplete#enable_at_startup = 1
@@ -70,20 +77,25 @@ let g:rehash256 = 0
 " let g:ycm_enable_diagnostic_signs = 0
 " let g:ycm_enable_diagnostic_highlighting = 0
 let g:clang_format_executable="clang-format-3.6"
+let g:doge_comment_interactive=0
 let NERDTreeShowBookmarks = 1
 let g:cpp_experimental_simple_template_highlight = 0
 let g:go_version_warning = 0
 let g:auto_save = 1
 let g:move_map_keys =1
 let g:move_auto_indent=1
+let g:pydocstring_doq_path='/usr/local/bin/doq'
+let g:pydocstring_formatter = 'google'
 " let g:fzf_layout = { 'down': '50%' }
 let g:move_key_modifier='S'
 let g:python_highlight_all = 1
 let g:gutentags_ctags_extra_args = [
       \ '--tag-relative=yes',
       \ '--fields=+ailmnS',
+      \ '--languages=C,C++,CUDA',
       \ ]
 let g:gutentags_ctags_exclude = [
+      \ 'third_party/*',
       \ '*.git', '*.svg', '*.hg',
       \ '*/tests/*',
       \ 'build',
@@ -131,13 +143,15 @@ let g:gutentags_ctags_exclude = [
       \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
       \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
       \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
+      \ '*.ts', '*.js', 
+      \ '*.py', 
       \ ]
 " let g:ale_lint_on_enter = 0 
 " let g:ale_lint_on_text_changed = 'never' 
 " let g:ale_lint_on_save = 0
 " let g:ale_set_highlights = 0
 nmap <leader>sa :ALEFix<CR>
-nmap <leader>ss :ALELint<CR>
+" nmap <leader>ss :ALELint<CR>
 " let g:lsp_highlights_enabled = 0
 " let g:lsp_textprop_enabled = 0
 " let g:lsp_signs_enabled = 0     
@@ -147,7 +161,7 @@ autocmd Filetype tex setl updatetime=0.1
 let g:livepreview_previewer = 'open -a Preview'
 "let g:gutentags_define_advanced_commands = 1
 "" enable gtags module
-" let g:gutentags_modules = ['ctags']
+let g:gutentags_modules = ['ctags']
 ""
 " config project root markers.
 " let g:gutentags_project_root = ['.root', '.git']
@@ -157,6 +171,7 @@ let g:livepreview_previewer = 'open -a Preview'
 let g:gutentags_generate_on_write = 1
 """ generate datebases in my cache directory, prevent gtags files polluting my project
 let g:gutentags_cache_dir = expand('~/.cache/tags')
+let g:tags = expand('~/.cache/tags')
 let g:doge_enable_mappings=0 
 let g:doge_mapping='<leader>`'
 let g:doge_doc_standard_cpp = 'doxygen_javadoc'
@@ -178,13 +193,14 @@ autocmd FileType python let b:codefmt_formatter = 'black'
 "   \ ]
 " \ }
 " nnoremap yl :YcmCompleter GoToDeclaration<CR>
-" nnoremap yf :YcmCompleter GoToDefinition<CR>
+" noremap yf :YcmCompleter GoToDefinition<CR>
 " nnoremap yg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" nnoremap yg :YcmCompleter GoTo<CR>
 " nnoremap <leader>c :FormatCode<CR> 
 nmap <leader>t :TagbarToggle<CR>
 nnoremap <leader>gb :<C-u>call gitblame#echo()<CR>
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
+" map <silent> gd <Plug>(coc-definition)
+"nmap <silent> gy <Plug>(coc-type-definition)
 " nmap <silent> gi <Plug>(coc-implementation)
 " nmap <silent> gr <Plug>(coc-references)
 nnoremap <leader>gd :Gvdiffsplit!<CR>
@@ -217,6 +233,8 @@ let g:coc_node_path="/home/nhendy/node-v14.17.1-linux-x64/bin/node"
 " nnoremap <leader>. :call SourceVimrc()<cr>
 
 " nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+nnoremap vv :vsplit<CR>
+nnoremap vs :split<CR>
 
 autocmd FileType python let b:codefmt_formatter = 'black'
 let g:autoflake_remove_all_unused_imports=1
@@ -261,31 +279,43 @@ nnoremap th :call GotoProtoHeader()<CR>
 " nnoremap ~ :Ack! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " noremap <Leader>a :Ack <cword><cr>
 noremap <Leader>a :Ag <C-R><C-W><CR>
-" noremap <Leader>a :Tags <C-R><C-W><CR>
+noremap <Leader>s :Tags <C-R><C-W><CR>
+noremap <Leader>ss :ts <C-R><C-W><CR>
+augroup MyGutentagsStatusLineRefresher
+    autocmd!
+    autocmd User GutentagsUpdating call lightline#update()
+    autocmd User GutentagsUpdated call lightline#update()
+augroup END
 
 function! SwitchSourceHeader()
  " Get the current file extension. To see what this command is doing,
  " see :help expand.
  let l:cur_ext=expand("%:e")
  " See if we have a source file (ending in .cpp or .cc).
- if (expand ("%:e") == "cpp" || expand ("%:e") == "cc")
+ if (expand ("%:e") == "cpp" || expand ("%:e") == "cc" || expand("%:r:e") == "cu" )
    " %:t gives the basename with extension, :r trims the extension.
    " Try searching for both .h and .hpp extensions, and open the first file
    " that is found.
    let l:h_path=expand("%:r") . ".h"
    let l:hpp_path=expand("%:r") . ".hpp"
+   let l:hcu_path=expand("%:r:r") . ".h"
    if filereadable(h_path)
      find %:t:r.h
    elseif filereadable(hpp_path)
      find %:t:r.hpp
+   elseif filereadable(hcu_path)
+     find %:t:r:r.h
    endif
  else
    let l:cpp_path=expand("%:r") . ".cpp"
    let l:cc_path=expand("%:r") . ".cc"
+   let l:cu_path=expand("%:r") . ".cu.cpp"
    if filereadable(cpp_path)
      find %:t:r.cpp
    elseif filereadable(cc_path)
      find %:t:r.cc
+   elseif filereadable(cu_path)
+     find %:t:r.cu.cpp
    endif
  endif
 endfunction
@@ -354,7 +384,7 @@ import subprocess
 try:
  fn = vim.current.buffer.name
  basename = os.path.basename(fn)
- basename, _ = os.path.splitext(basename)
+ basename = basename.split(".")[0]
  dirname = os.path.dirname(fn)
  target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
  vim.command("vsplit")
@@ -376,7 +406,25 @@ try:
  dirname = os.path.dirname(fn)
  target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
  vim.command("split")
- vim.command('terminal source /home/nhendy/.bashrc && inorun bazel build {}'.format(target))
+ vim.command('terminal source /home/nhendy/.bashrc && bazel build {}'.format(target))
+except Exception as e:
+  print("Something went wrong: " + str(e))
+EOF
+endfunction
+function! RunMypy()
+python3 << EOF
+import vim
+import os.path
+import re
+import subprocess
+try:
+ fn = vim.current.buffer.name
+ basename = os.path.basename(fn)
+ basename, _ = os.path.splitext(basename)
+ dirname = os.path.dirname(fn)
+ target = "{prefix}:{binary}_mypy_test".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
+ vim.command("split")
+ vim.command('terminal source /home/nhendy/.bashrc && bazel run {}'.format(target))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
@@ -399,6 +447,24 @@ except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
 endfunction
+function! ExecuteBazelDebug()
+python3 << EOF
+import vim
+import os.path
+import re
+import subprocess
+try:
+ fn = vim.current.buffer.name
+ basename = os.path.basename(fn)
+ basename, _ = os.path.splitext(basename)
+ dirname = os.path.dirname(fn)
+ target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
+ vim.command("vsplit")
+ vim.command('term {}/devx/scripts/debug.py --compilation_mode=dbg --cgdb {} '.format(os.getcwd(), target))
+except Exception as e:
+  print("Something went wrong: " + str(e))
+EOF
+endfunction
 
 function! PipedreamExecuteBazelArgs(pipeargs, args)
 python3 << EOF
@@ -413,7 +479,7 @@ try:
  dirname = os.path.dirname(fn)
  target = "{prefix}:{binary}".format(prefix=re.sub("/home/nhendy/driving[0-9]?", "/", dirname), binary=basename)
  vim.command("vsplit")
- vim.command('term source {}/scripts/shell/zooxrc.sh && pipedream/tools/run bazel  --slack_targets @nhendy --name {} {} {} -- {}'.format(os.getcwd(), basename, vim.eval("a:pipeargs"), target, vim.eval("a:args")))
+ vim.command('term source {}/scripts/shell/zooxrc.sh && pipedream/tools/run bazel --docker_args="--runtime=nvidia" --gpus 0 --slack_targets @nhendy --name {} {} {} -- {}'.format(os.getcwd(), basename, vim.eval("a:pipeargs"), target, vim.eval("a:args")))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
@@ -433,8 +499,45 @@ function! RunSafetyNetArgs(args)
 python3 << EOF
 import vim
 try:
+ target = "//vehicle/perception/learning/safetynet:run_safetynet"
  vim.command("vsplit")
- vim.command('term source ~/.bashrc && snet_offline {}'.format(vim.eval("a:args")))
+ vim.command('term')
+ vim.command('term bazel run {} -- {} --safetynet_mode=kRelease'.format(target, vim.eval("a:args")))
+except Exception as e:
+  print("Something went wrong: " + str(e))
+EOF
+endfunction
+function! RunSafetyNetCi(args)
+python3 << EOF
+import vim
+try:
+ target = "//vehicle/perception/learning/safetynet:ci"
+ vim.command("vsplit")
+ vim.command('term bazel run {} -- --metrichub_dataset_size {} --no_prediction_metrichub --candidate_only --retention monthly --metrichub_only'.format(target, vim.eval("a:args") or "slac"))
+except Exception as e:
+  print("Something went wrong: " + str(e))
+EOF
+endfunction
+function! RunCasCi()
+python3 << EOF
+import vim
+try:
+ target = "//cas/ci:cas_ci"
+ vim.command("vsplit")
+ vim.command('term bazel run {} -- --save_chum daily --output_working_root /mnt/sun-pcp01/nhendy/cas_ci/  --pipedream'.format(target))
+except Exception as e:
+  print("Something went wrong: " + str(e))
+EOF
+endfunction
+
+function! RunSafetyNetArgs(args)
+python3 << EOF
+import vim
+try:
+ target = "//vehicle/perception/learning/safetynet:run_safetynet"
+ vim.command("vsplit")
+ vim.command('term')
+ vim.command('term bazel run {} -- {} --safetynet_mode=kRelease'.format(target, vim.eval("a:args")))
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
@@ -445,6 +548,8 @@ nnoremap <leader>R :call ExecuteBazelArgs("")
 nnoremap <leader>B :call BuildBazel() <cr>
 nnoremap <leader>. :call RunSafetyNet() <cr>
 nnoremap <leader>, :call RunSafetyNetArgs("") 
+nnoremap <leader>C :call RunSafetyNetCi("") 
+nnoremap <leader>A :call RunCasCi() 
 
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>

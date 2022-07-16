@@ -125,7 +125,7 @@ let g:lightline = {
   \ 'active': {
   \   'left': [ ['mode', 'paste'],
   \             ['fugitive', 'readonly', 'filename', 'modified'], ['tagbar']],
-  \   'right': [ [ 'lineinfo' ], ['percent'],]
+  \   'right': [ [ 'lineinfo' ], ['percent'], [ 'gutentags']]
   \ },
   \ 'component': {
   \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',

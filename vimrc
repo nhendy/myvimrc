@@ -46,7 +46,6 @@ call vundle#begin()
 " Plugin 'tpope/vim-markdown'
 " Plugin 'tpope/vim-repeat'
 " Plugin 'tpope/vim-surround'
-" Plugin 'valloric/youcompleteme'
 " Plugin 'wvffle/vimterm'
 "" " `:help :Glaive` for usage.
 "" " let Vundle manage Vundle, required
@@ -73,7 +72,7 @@ call vundle#begin()
 " Plugin 'tomtom/tlib_vim'
 " Plugin 'wvffle/vimterm'
 " Plugin 'xuhdev/vim-latex-live-preview'
-Plugin  'tell-k/vim-autoflake'
+Plugin 'tell-k/vim-autoflake'
 Plugin '907th/vim-auto-save'
 Plugin 'Vimjas/vim-python-pep8-indent'
 Plugin 'VundleVim/Vundle.vim'
@@ -95,7 +94,8 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junkblocker/patchreview-vim'
-Plugin 'kabouzeid/nvim-lspinstall'
+" Plugin 'Valloric/YouCompleteMe' 
+" Plugin 'kabouzeid/nvim-lspinstall'
 Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'majutsushi/tagbar'
 Plugin 'matze/vim-move'
@@ -117,7 +117,9 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-rhubarb'
 Plugin 'tpope/vim-surround'
 Plugin 'zivyangll/git-blame.vim'
-" Plugin 'kkoomen/vim-doge'
+Plugin 'dhruvasagar/vim-table-mode'
+Plugin 'posva/vim-vue'
+Plugin 'kkoomen/vim-doge'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
