@@ -273,6 +273,7 @@ try:
  ran = False
  while fn:
    exists, buildfile, fn = look_above(fn)
+   print(build_file)
    if exists:
      print("found {}!!!".format(buildfile))
      # vim.command('call ExecuteBazel()')
@@ -280,10 +281,6 @@ try:
      vim.command('terminal bazel run {}'.format(target))
      ran = True
      break
- if not ran:
-    # print(vim.command('QuickRun'))
-    vim.command("vsplit")
-    vim.command('QuickRun')
 except Exception as e:
   print("Something went wrong: " + str(e))
 EOF
