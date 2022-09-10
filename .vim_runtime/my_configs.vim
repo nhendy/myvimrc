@@ -273,7 +273,7 @@ try:
  ran = False
  while fn:
    exists, buildfile, fn = look_above(fn)
-   print(build_file)
+   print(buildfile)
    if exists:
      print("found {}!!!".format(buildfile))
      # vim.command('call ExecuteBazel()')
