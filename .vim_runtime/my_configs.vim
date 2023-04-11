@@ -82,7 +82,7 @@ let g:livepreview_previewer = 'open -a Preview'
 
 augroup autoformat_settings
   autocmd FileType bzl let b:codefmt_formatter = 'buildifier'
-  autocmd FileType python let b:codefmt_formatter = 'blac' 
+  autocmd FileType python let b:codefmt_formatter = 'black' 
 augroup END
 " set statusline+=%{gutentags#statusline()}
 "let g:gutentags_define_advanced_commands = 1
