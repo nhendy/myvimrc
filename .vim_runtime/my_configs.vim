@@ -80,7 +80,6 @@ nnoremap vs :split<CR>
 autocmd Filetype tex setl updatetime=0.1
 let g:livepreview_previewer = 'open -a Preview'
 
-let g:vim_isort_python_version = 'python3.9'
 augroup autoformat_settings
   autocmd FileType bzl let b:codefmt_formatter = 'buildifier'
   autocmd FileType python let b:codefmt_formatter = 'black' 
