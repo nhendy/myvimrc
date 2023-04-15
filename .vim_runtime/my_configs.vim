@@ -54,9 +54,11 @@ if executable('gcc')
     execute 'set path+=' . fnameescape(s:line)
   endfor
 endif
+autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 " set path=$PWD/**
 " set path+=$PATH
 " let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
+let s:molokai_original = 1
 " let g:ycm_collect_identifiers_from_tags_files=1
 " let g:ycm_collect_identifiers_from_comments_and_strings = 1
 " let g:ycm_collect_identifiers_from_tags_files = 1
