@@ -126,4 +126,4 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
 
 
-export PATH="$PATH;/Users/Dz/anaconda/bin:/usr/local/b
+export PATH="$PATH:/Users/noureldinhendy/miniconda3/"
