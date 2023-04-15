@@ -56,6 +56,14 @@ if executable('gcc')
 endif
 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 let g:fzf_mru_relative = 1
+
+ " NOTE: This is important for being able to exit terminal mode
+if has('nvim')
+    tnoremap <Esc> <C-\><C-n>
+    au TermOpen  * setlocal nonumber | stopinsert
+    au TermClose * setlocal   number | call feedkeys("\<C-\>\<C-n>")
+endif
+
 " set path=$PWD/**
 " set path+=$PATH
 " let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
