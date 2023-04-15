@@ -55,6 +55,7 @@ if executable('gcc')
   endfor
 endif
 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
+let g:fzf_mru_relative = 1
 " set path=$PWD/**
 " set path+=$PATH
 " let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
