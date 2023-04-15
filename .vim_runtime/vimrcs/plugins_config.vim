@@ -50,7 +50,7 @@ let g:ctrlp_working_path_mode = 0
 " map <leader>j :CtrlP<cr>
 map <c-f> :Files<cr>
 " map <c-b> :CtrlPBuffer<cr>
-map <c-b> :Buffers<cr>
+" map <c-b> :Buffers<cr>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
@@ -136,7 +136,8 @@ let g:lightline = {
       \ 'component_visible_condition': {
       \   'readonly': '(&filetype!="help"&& &readonly)',
       \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())',
+      \   'tagbar': '%{tagbar#currenttag("%s", "", "f")}'
       \ },
       \ 'separator': { 'left': ' ', 'right': ' ' },
       \ 'subseparator': { 'left': ' ', 'right': ' ' }
@@ -193,6 +194,6 @@ nnoremap <silent> <leader>d :GitGutterToggle<cr>
 "       \ pumvisible() ? "\<C-n>" :
 "       \ <SID>check_back_space() ? "\<TAB>" :
 "       \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 nmap yg  <Plug>(coc-definition)
 
