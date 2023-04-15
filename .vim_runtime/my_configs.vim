@@ -60,6 +60,15 @@ autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 " let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
 let s:molokai_original = 1
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+command! -bang -nargs=? FZFMru call fzf_mru#actions#mru(<q-args>,
+    \{
+        \'window': {'width': 0.9, 'height': 0.8},
+        \'options': [
+            \'--preview', 'bat {}',
+            \'--bind', 'ctrl-_:toggle-preview'
+        \]
+    \}
+\)
 " let g:ycm_collect_identifiers_from_tags_files=1
 " let g:ycm_collect_identifiers_from_comments_and_strings = 1
 " let g:ycm_collect_identifiers_from_tags_files = 1
