@@ -64,6 +64,15 @@ if has('nvim')
     au TermClose * setlocal   number | call feedkeys("\<C-\>\<C-n>")
 endif
 
+function! QuickRunWithArgs(args1)
+  let file_type = expand("%:e")
+  if has_key(g:quickrun_known_file_types, file_type)
+      let qr_command = join(g:quickrun_known_file_types[file_type], '&&')
+      echom a:args1
+      execute qr_command . " " . a:args1
+  endif
+endfunction
+
 " set path=$PWD/**
 " set path+=$PATH
 " let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
