@@ -28,8 +28,8 @@ map <leader>o :BufExplorer<cr>
 " => MRU plugin
 """"""""""""""""""""""""""""""
 let MRU_Max_Entries = 400
-" map <leader>f :MRU<CR>
- map <leader>f :History<CR>
+map <leader>f :MRU<CR>
+ " map <leader>f :History<CR>
 
 
 """"""""""""""""""""""""""""""
