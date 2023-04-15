@@ -64,8 +64,7 @@ command! -bang -nargs=? FZFMru call fzf_mru#actions#mru(<q-args>,
     \{
         \'window': {'width': 0.9, 'height': 0.8},
         \'options': [
-            \'--preview', 'bat {}',
-            \'--bind', 'ctrl-_:toggle-preview'
+            \'--preview', 'cat {}',
         \]
     \}
 \)
