@@ -41,6 +41,7 @@ call vundle#begin()
 "" Plugin 'neoclide/coc.nvim'
 Plugin '907th/vim-auto-save'
 Plugin 'tell-k/vim-autoflake'
+Plugin 'kkoomen/vim-doge'
 Plugin 'cjrh/vim-conda'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'SirVer/ultisnips'
