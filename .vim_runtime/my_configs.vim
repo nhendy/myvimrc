@@ -72,6 +72,7 @@ function! QuickRunWithArgs(args1)
       execute qr_command . " " . a:args1
   endif
 endfunction
+let g:doge_doc_standard_python = 'numpy'
 
 " set path=$PWD/**
 " set path+=$PATH
