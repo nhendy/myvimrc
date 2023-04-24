@@ -110,6 +110,7 @@ Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'zivyangll/git-blame.vim'
 Plugin 'rust-lang/rust.vim'
 Plugin 'github/copilot.vim'
+Plugin 'integralist/vim-mypy'
 
 
 call vundle#end()            " required
