@@ -195,7 +195,6 @@ nnoremap <silent> <leader>d :GitGutterToggle<cr>
 "       \ <SID>check_back_space() ? "\<TAB>" :
 "       \ coc#refresh()
 " inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-nmap yg  <Plug>(coc-definition)
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
     call CocActionAsync('doHover')
@@ -204,3 +203,6 @@ function! ShowDocumentation()
   endif
 endfunction
 
+nnoremap <silent> K :call ShowDocumentation()<CR>
+nmap yg  <Plug>(coc-definition)
+nmap qf  <Plug>(coc-fix-current)
