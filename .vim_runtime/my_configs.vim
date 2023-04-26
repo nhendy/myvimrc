@@ -96,6 +96,7 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let g:go_version_warning = 0
 let g:auto_save = 1
 
+let g:coc_root_patterns = ['.git', '.env']
 let g:move_map_keys =1
 let g:move_auto_indent=1
 let g:move_key_modifier='S'
