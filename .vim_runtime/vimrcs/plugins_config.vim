@@ -206,3 +206,5 @@ endfunction
 nnoremap <silent> K :call ShowDocumentation()<CR>
 nmap yg  <Plug>(coc-definition)
 nmap qf  <Plug>(coc-fix-current)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
