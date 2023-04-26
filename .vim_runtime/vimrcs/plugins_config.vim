@@ -196,4 +196,11 @@ nnoremap <silent> <leader>d :GitGutterToggle<cr>
 "       \ coc#refresh()
 " inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 nmap yg  <Plug>(coc-definition)
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
 
