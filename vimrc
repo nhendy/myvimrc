@@ -40,7 +40,7 @@ call vundle#begin()
 "" Also add Glaive, which is used to configure codefmt's maktaba flags. See
 "" Plugin 'neoclide/coc.nvim'
 
-Plugin 'davidhalter/jedi-vim'
+" Plugin 'davidhalter/jedi-vim'
 Plugin '907th/vim-auto-save'
 Plugin 'tell-k/vim-autoflake'
 Plugin 'kkoomen/vim-doge'
@@ -55,7 +55,7 @@ Plugin 'amix/vim-zenroom2'
 Plugin 'bazelbuild/vim-bazel'
 Plugin 'chr4/nginx.vim'
 Plugin 'codegram/vim-codereview'
-" Plugin 'dense-analysis/ale'
+Plugin 'dense-analysis/ale'
 Plugin 'farmergreg/vim-lastplace'
 Plugin 'garbas/vim-snipmate'
 Plugin 'google/vim-codefmt'
