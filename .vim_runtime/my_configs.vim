@@ -67,11 +67,24 @@ endif
 function! QuickRunWithArgs(args1)
   let file_type = expand("%:e")
   if has_key(g:quickrun_known_file_types, file_type)
-      let qr_command = join(g:quickrun_known_file_types[file_type], '&&')
+      if file_type == "py"
+          let l:qr_command = PythonModuleCommand()
+      else
+          let l:qr_command = join(g:quickrun_known_file_types[file_type], '&&')
+      endif
       echom a:args1
-      execute qr_command . " " . a:args1
+      execute l:qr_command . " " . a:args1
   endif
 endfunction
+
+function! StreamlitRun(args1)
+python3 << EOF
+import vim
+from pathlib import Path
+vim.command("vsplit | terminal python3 -m streamlit run {} -- {}".format(Path(vim.eval("expand('%')")), vim.eval("a:args1")))
+EOF
+endfunction
+
 let g:doge_doc_standard_python = 'numpy'
 
 " set path=$PWD/**
@@ -95,7 +108,6 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 " let g:clang_format_executable="~/centos/usr/bin/clang-format"
 let g:go_version_warning = 0
 let g:auto_save = 1
-
 let g:coc_root_patterns = ['.git', '.env']
 let g:move_map_keys =1
 let g:move_auto_indent=1
@@ -104,7 +116,13 @@ let g:ale_lint_on_enter = 0
 let g:ale_lint_on_text_changed = 'never' 
 let g:ale_lint_on_save = 0
 let g:ale_set_highlights = 0
-" let g:python3_host_prog = '/usr/local/bin/python3.10'
+
+let g:ale_linters = {
+\   'python': ['ruff'],
+\}
+let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'], 'python': ['ruff', 'black'], }
+
+" let g:python3_host_prog = '/Users/noureldinhendy/miniconda3/envs/mytorch/bin/python3'
 nnoremap vv :vsplit<CR>
 nnoremap vs :split<CR>
 " nmap <leader>sa :ALEFix<CR>
@@ -116,6 +134,9 @@ augroup autoformat_settings
   autocmd FileType bzl let b:codefmt_formatter = 'buildifier'
   autocmd FileType python let b:codefmt_formatter = 'black' 
 augroup END
+
+autocmd FileType hjson setl cms=//\ %s
+
 " set statusline+=%{gutentags#statusline()}
 "let g:gutentags_define_advanced_commands = 1
 "" enable gtags module
@@ -323,8 +344,13 @@ except Exception as e:
 EOF
 endfunction
 
+
+
 " nnoremap <leader>r :call ExecuteBazel()<cr>
 " nnoremap <leader>r :call Run()<cr>
-nnoremap <leader>r :call QuickRun()<cr>
+" nnoremap <leader>r :call QuickRun()<cr>
+nnoremap <leader>R :call QuickRunWithArgs("")
+nnoremap <leader>r :call QuickRunWithArgs("")<cr>
+nnoremap <leader>T :vsplit \| term pytest<cr>
 
 set gfn=Monaco:h13

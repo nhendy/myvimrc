@@ -41,6 +41,7 @@ call vundle#begin()
 "" Plugin 'neoclide/coc.nvim'
 
 " Plugin 'davidhalter/jedi-vim'
+Plugin 'easymotion/vim-easymotion'
 Plugin '907th/vim-auto-save'
 Plugin 'tell-k/vim-autoflake'
 Plugin 'kkoomen/vim-doge'
@@ -85,6 +86,7 @@ Plugin 'michaeljsmith/vim-indent-object'
 Plugin 'mikecoder/quickrun.vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'morhetz/gruvbox'
+Plugin 'mhinz/vim-signify'
 " Plugin 'mru.vim'
 Plugin 'pbogut/fzf-mru.vim'
 Plugin 'fisadev/vim-isort'
@@ -112,6 +114,7 @@ Plugin 'zivyangll/git-blame.vim'
 Plugin 'rust-lang/rust.vim'
 Plugin 'github/copilot.vim'
 Plugin 'integralist/vim-mypy'
+Plugin 'hjson/vim-hjson'
 
 
 call vundle#end()            " required
