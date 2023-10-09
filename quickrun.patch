@@ -1,0 +1,48 @@
+diff --git a/plugin/quickrun.vim b/plugin/quickrun.vim
+index e45a8fd..b631c46 100644
+--- a/plugin/quickrun.vim
++++ b/plugin/quickrun.vim
+@@ -14,9 +14,10 @@ if !exists('g:quickrun_known_file_types')
+                 \"c": ["!g++ -g \"%\"", "./a.out"],
+                 \"php": ["!php \"%\""],
+                 \"vim": ["source \"%\""],
+-                \"py": ["!python \"%\""],
++                \"py": ["vsplit | term python3.10 \"%\""],
+                 \"git": ["!git add.", "git commit -am '%'", "git push origin master"],
+                 \"md": ["MarkdownPreview github"],
++                \"sh": ["term bash \"%\""],
+                 \}
+ endif
+ 
+@@ -69,6 +70,7 @@ endfunction
+ 
+ function! QuickRunByDefault()
+     let file_type = expand("%:e")
++    echo file_type
+     if has_key(g:quickrun_known_file_types, file_type)
+         let qr_command = join(g:quickrun_known_file_types[file_type], '&&')
+         execute qr_command
+@@ -94,6 +96,16 @@ function! QuickRunWithType(args1)
+     endif
+ endfunction
+ 
++function! QuickRunWithArgs(args1)
++    let file_type = expand("%:e")
++    echo file_type
++    if has_key(g:quickrun_known_file_types, file_type)
++        let qr_command = join(g:quickrun_known_file_types[file_type], '&&')
++        echo qr_command . ' ' . a:args1
++        execute qr_command . ' ' . a:args1
++    endif
++endfunction
++
+ if !exists(':QuickRun')
+     command -nargs=0 QuickRun :call QuickRun()
+ endif
+@@ -101,3 +113,6 @@ endif
+ if !exists(':QuickRunWithType')
+     command -nargs=1 QuickRunWithType :call QuickRunWithType(<f-args>)
+ endif
++if !exists(':QuickRunWithArgs')
++    command -nargs=1 QuickRunWithArgs :call QuickRunWithArgs(<f-args>)
++endif
