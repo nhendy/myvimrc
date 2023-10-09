@@ -28,9 +28,9 @@ map <leader>o :Buffers<cr>
 """"""""""""""""""""""""""""""
 " => MRU plugin
 """"""""""""""""""""""""""""""
-let MRU_Max_Entries = 400
-" map <leader>f :MRU<CR>
-map <leader>f :History<CR>
+let MRU_Max_Entries = 20
+map <leader>f :FZFMru <CR>
+" map <leader>f :History<CR>
 
 
 """"""""""""""""""""""""""""""
@@ -149,7 +149,7 @@ let g:lightline = {
 let g:goyo_width=100
 let g:goyo_margin_top = 2
 let g:goyo_margin_bottom = 2
-nnoremap <silent> <leader>z :Goyo<cr>
+" nnoremap <silent> <leader>z :Goyo<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -162,9 +162,13 @@ let g:go_fmt_command = "goimports"
 " => Syntastic (syntax checker)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ale_linters = {
-\   'javascript': ['jshint'],
 \   'python': ['flake8'],
-\   'go': ['go', 'golint', 'errcheck']
+\}
+" let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'], 'python': ['ruff', 'black'], }
+let g:ale_pattern_options = {
+\   '.*\.cpp$': {'ale_enabled': 0},
+\   '.*\.cu$': {'ale_enabled': 0},
+\   '.*\.proto$': {'ale_enabled': 0},
 \}
 
 nmap <silent> <leader>a <Plug>(ale_next_wrap)
@@ -196,4 +200,22 @@ nnoremap <silent> <leader>d :GitGutterToggle<cr>
 "       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 nmap yg  <Plug>(coc-definition)
+nmap <silent> yr <Plug>(coc-references)
+nmap <silent> yi <Plug>(coc-references)
+nmap <silent> yt <Plug>(coc-type-definition)
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =>  Fugitive 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap  <leader>gg :G<cr>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =>  Autosave 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:auto_save_events=[ "CursorHold", "CursorHoldI"]
+let g:auto_save=1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =>  ALE 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ale_disable_lsp = 1
+" let g:ale_lint_on_text_changed = 'never'
