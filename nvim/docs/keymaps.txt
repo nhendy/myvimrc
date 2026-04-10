@@ -1,0 +1,55 @@
+My Neovim Keymaps
+Generated: 2026-03-08 15:56:27
+================================================================================================
+Category       Mode     Key                      Action                 Description
+------------------------------------------------------------------------------------------------
+editing        i        <C-a>                    <C-o>0                 Start of line in insert mode
+editing        i        <C-e>                    <C-o>$                 End of line in insert mode
+editing        i        JK                       <Esc>                  Exit insert mode
+editing        i        Jk                       <Esc>                  Exit insert mode
+editing        i        KJ                       <Esc>                  Exit insert mode
+editing        i        Kj                       <Esc>                  Exit insert mode
+editing        i        jK                       <Esc>                  Exit insert mode
+editing        i        jk                       <Esc>                  Exit insert mode
+editing        i        kJ                       <Esc>                  Exit insert mode
+editing        i        kj                       <Esc>                  Exit insert mode
+editing        n        <Down>                   <Nop>                  Disable down arrow
+editing        n        <Left>                   <Nop>                  Disable left arrow
+editing        n        <Right>                  <Nop>                  Disable right arrow
+editing        n        <Up>                     <Nop>                  Disable up arrow
+editing        n        <leader>w                <cmd>w!<CR>            Save file
+editing        n,x      <M-j>                    :m .+1<CR>==           Move line down
+editing        n,x      <M-k>                    :m .-2<CR>==           Move line up
+lsp            n        K                        lsp.hover()            Hover documentation
+lsp            n        [g                       diagnostic.prev()      Previous diagnostic
+lsp            n        ]g                       diagnostic.next()      Next diagnostic
+lsp            n        gd                       lsp.definition()       Go to definition
+lsp            n        gi                       lsp.implementation()   Go to implementation
+lsp            n        gr                       lsp.references()       Go to references
+lsp            n        qf                       lsp.code_action()      Code action
+lsp            n        yg                       lsp.definition()       Go to definition (legacy alias)
+navigation     n        <leader>gB               goto_build_file()      Open nearest BUILD file
+navigation     n        <leader>gh               switch_source_header() Switch source/header file
+navigation     n        tp                       <cmd>GoToProtoDef<CR>  Open matching .proto file
+run            n        <leader>R                QuickRunWithArgs       Quick run current buffer with args
+run            n        <leader>r                QuickRun               Quick run current buffer
+run            n        <leader>rl               QuickRunLast           Show last QuickRun command
+search         n        <leader><CR>             <cmd>nohlsearch<CR>    Clear search highlight
+tabs           n        <leader>1                1gt                    Go to tab 1
+tabs           n        <leader>2                2gt                    Go to tab 2
+tabs           n        <leader>3                3gt                    Go to tab 3
+tabs           n        <leader>4                4gt                    Go to tab 4
+tabs           n        <leader>5                5gt                    Go to tab 5
+tabs           n        <leader>6                6gt                    Go to tab 6
+tabs           n        <leader>7                7gt                    Go to tab 7
+tabs           n        <leader>8                8gt                    Go to tab 8
+tabs           n        <leader>9                9gt                    Go to tab 9
+tabs           n        <leader>tc               <cmd>tabclose<CR>      Close tab
+tabs           n        <leader>tn               <cmd>tabnew<CR>        Open new tab
+tabs           n        <leader>to               <cmd>tabonly<CR>       Keep only current tab
+windows        n        <C-h>                    <C-w>h                 Move to left window
+windows        n        <C-j>                    <C-w>j                 Move to lower window
+windows        n        <C-k>                    <C-w>k                 Move to upper window
+windows        n        <C-l>                    <C-w>l                 Move to right window
+windows        n        vs                       <cmd>split<CR>         Horizontal split
+windows        n        vv                       <cmd>vsplit<CR>        Vertical split
