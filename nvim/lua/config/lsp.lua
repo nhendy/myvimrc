@@ -15,8 +15,35 @@ function M.setup()
     severity_sort = true,
   })
 
+  -- Resolve which Python interpreter pyright analyzes against, so that
+  -- "go to definition" jumps into the libraries installed in the project's
+  -- uv environment. Without this, pyright falls back to system Python and
+  -- cannot resolve third-party packages. Order: active VIRTUAL_ENV, then
+  -- a uv/standard <root>/.venv. Returns nil when neither exists.
+  local function detect_python_path(root)
+    local uv = vim.uv or vim.loop
+    local venv = vim.env.VIRTUAL_ENV
+    if venv and vim.fn.executable(venv .. "/bin/python") == 1 then
+      return venv .. "/bin/python"
+    end
+    root = root or uv.cwd()
+    if root and vim.fn.executable(root .. "/.venv/bin/python") == 1 then
+      return root .. "/.venv/bin/python"
+    end
+    return nil
+  end
+
   local servers = {
-    pyright = {},
+    pyright = {
+      before_init = function(_, config)
+        local py = detect_python_path(config.root_dir)
+        if py then
+          config.settings = config.settings or {}
+          config.settings.python = config.settings.python or {}
+          config.settings.python.pythonPath = py
+        end
+      end,
+    },
     ts_ls = {},
     clangd = {
       cmd = { "clangd", "--background-index", "--clang-tidy" },
