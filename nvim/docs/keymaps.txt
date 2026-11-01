@@ -1,8 +1,18 @@
 My Neovim Keymaps
-Generated: 2026-03-08 15:56:27
+Generated: 2026-09-10 21:15:55
 ================================================================================================
 Category       Mode     Key                      Action                 Description
 ------------------------------------------------------------------------------------------------
+ai             n        <leader>aC               <cmd>ClaudeCode --continue<cr> Continue Claude Code
+ai             n        <leader>aa               <cmd>ClaudeCodeDiffAccept<cr> Accept Claude diff
+ai             n        <leader>ab               <cmd>ClaudeCodeAdd %<cr> Add current buffer to Claude
+ai             n        <leader>ac               <cmd>ClaudeCode<cr>    Toggle Claude Code
+ai             n        <leader>ad               <cmd>ClaudeCodeDiffDeny<cr> Deny Claude diff
+ai             n        <leader>ae               <cmd>AvanteToggle<CR>  Toggle Avante
+ai             n        <leader>af               <cmd>ClaudeCodeFocus<cr> Focus Claude Code
+ai             n        <leader>am               <cmd>ClaudeCodeSelectModel<cr> Select Claude model
+ai             n        <leader>ar               <cmd>ClaudeCode --resume<cr> Resume Claude Code
+ai             v        <leader>as               <cmd>ClaudeCodeSend<cr> Send selection to Claude
 editing        i        <C-a>                    <C-o>0                 Start of line in insert mode
 editing        i        <C-e>                    <C-o>$                 End of line in insert mode
 editing        i        JK                       <Esc>                  Exit insert mode
@@ -17,24 +27,48 @@ editing        n        <Down>                   <Nop>                  Disable 
 editing        n        <Left>                   <Nop>                  Disable left arrow
 editing        n        <Right>                  <Nop>                  Disable right arrow
 editing        n        <Up>                     <Nop>                  Disable up arrow
+editing        n        <leader>c                <cmd>FormatCode<CR>    Format current file
 editing        n        <leader>w                <cmd>w!<CR>            Save file
 editing        n,x      <M-j>                    :m .+1<CR>==           Move line down
 editing        n,x      <M-k>                    :m .-2<CR>==           Move line up
+files          n        <leader>nb               <cmd>NERDTreeFromBookmark<Space> Open NERDTree bookmark
+files          n        <leader>nf               <cmd>NERDTreeFind<CR>  Reveal current file in NERDTree
+files          n        <leader>nn               <cmd>NERDTreeToggle<CR> Toggle NERDTree
+files          n        <leader>t                <cmd>TagbarToggle<CR>  Toggle Tagbar
+files          n        <leader>z                <cmd>Goyo<CR>          Toggle focus mode
+git            n        <leader>d                <cmd>GitGutterToggle<CR> Toggle git gutter
+git            n        <leader>gb               <cmd>call gitblame#echo()<CR> Show git blame for current line
+latex          n        <space>v                 <plug>(vimtex-view)    View compiled PDF
 lsp            n        K                        lsp.hover()            Hover documentation
-lsp            n        [g                       diagnostic.prev()      Previous diagnostic
-lsp            n        ]g                       diagnostic.next()      Next diagnostic
+lsp            n        [g                       diagnostic.jump(-1)    Previous diagnostic
+lsp            n        ]g                       diagnostic.jump(+1)    Next diagnostic
 lsp            n        gd                       lsp.definition()       Go to definition
 lsp            n        gi                       lsp.implementation()   Go to implementation
 lsp            n        gr                       lsp.references()       Go to references
 lsp            n        qf                       lsp.code_action()      Code action
 lsp            n        yg                       lsp.definition()       Go to definition (legacy alias)
+navigation     n        /                        <Plug>(easymotion-sn)  EasyMotion search
 navigation     n        <leader>gB               goto_build_file()      Open nearest BUILD file
 navigation     n        <leader>gh               switch_source_header() Switch source/header file
 navigation     n        tp                       <cmd>GoToProtoDef<CR>  Open matching .proto file
+navigation     o        /                        <Plug>(easymotion-tn)  EasyMotion operator search
+python         n        <C-_>                    <Plug>(pydocstring)    Generate Python docstring
 run            n        <leader>R                QuickRunWithArgs       Quick run current buffer with args
+run            n        <leader>T                <cmd>vsplit | terminal pytest<CR> Run pytest in vertical terminal
 run            n        <leader>r                QuickRun               Quick run current buffer
 run            n        <leader>rl               QuickRunLast           Show last QuickRun command
+search         i        <C-x><C-k>               <Plug>(fzf-complete-word) FZF complete words
+search         i        <C-x><C-l>               <Plug>(fzf-complete-line) FZF complete line
+search         i        <C-x><C-p>               <Plug>(fzf-complete-path) FZF complete path
+search         n        <C-f>                    <cmd>Files .<CR>       FZF file search in cwd
 search         n        <leader><CR>             <cmd>nohlsearch<CR>    Clear search highlight
+search         n        <leader><Tab>            <Plug>(fzf-maps-n)     Search normal-mode mappings
+search         n        <leader>a                :Rg <C-R><C-W><CR>     Search word with ripgrep
+search         n        <leader>f                <cmd>FZFMru<CR>        Open recent files
+search         n        <leader>s                :Tags <C-R><C-W><CR>   Search tags for current word
+search         n        <leader>ss               :tselect <C-R><C-W><CR> Tag select current word
+search         o        <leader><Tab>            <Plug>(fzf-maps-o)     Search operator-pending mappings
+search         x        <leader><Tab>            <Plug>(fzf-maps-x)     Search visual-mode mappings
 tabs           n        <leader>1                1gt                    Go to tab 1
 tabs           n        <leader>2                2gt                    Go to tab 2
 tabs           n        <leader>3                3gt                    Go to tab 3
@@ -47,6 +81,7 @@ tabs           n        <leader>9                9gt                    Go to ta
 tabs           n        <leader>tc               <cmd>tabclose<CR>      Close tab
 tabs           n        <leader>tn               <cmd>tabnew<CR>        Open new tab
 tabs           n        <leader>to               <cmd>tabonly<CR>       Keep only current tab
+typst          n        <leader>tp               <cmd>TypstPreviewToggle<CR> Toggle Typst browser preview
 windows        n        <C-h>                    <C-w>h                 Move to left window
 windows        n        <C-j>                    <C-w>j                 Move to lower window
 windows        n        <C-k>                    <C-w>k                 Move to upper window

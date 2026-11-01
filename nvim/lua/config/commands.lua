@@ -1,6 +1,7 @@
 local quickrun = require("core.quickrun")
 local keymap_export = require("core.keymap_export")
 local nav = require("core.nav")
+local compiledb = require("core.compiledb")
 
 vim.api.nvim_create_user_command("QuickRun", function()
   quickrun.run({})
@@ -80,3 +81,16 @@ end, { desc = "Open nearest BUILD file" })
 vim.api.nvim_create_user_command("GoToProtoDef", function()
   nav.goto_proto_def()
 end, { desc = "Open .proto file from *.pb.h include under cursor" })
+
+vim.api.nvim_create_user_command("CompileCommands", function()
+  compiledb.cmake()
+end, { desc = "Configure CMake and link compile_commands.json to the repo root (clangd)" })
+
+vim.api.nvim_create_user_command("BazelCompileCommands", function()
+  compiledb.bazel()
+end, { desc = "Regenerate compile_commands.json via hedron_compile_commands (clangd)" })
+
+vim.api.nvim_create_user_command("TypstNew", function(opts)
+  local name = (opts.args ~= "" and opts.args) or os.date("note-%Y%m%d-%H%M")
+  vim.cmd.edit(vim.fn.fnameescape((name:gsub("%.typ$", "")) .. ".typ"))
+end, { nargs = "?", desc = "Create a new Typst note (auto-named if no arg)" })

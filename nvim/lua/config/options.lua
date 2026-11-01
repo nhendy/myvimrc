@@ -81,3 +81,25 @@ if not env.is_vscode then
     vim.env.FZF_ALT_C_COMMAND = dirs_cmd
   end
 end
+
+-- Toolchain dirs that must be on PATH for LSP servers to be found. Neovim
+-- inherits PATH from whatever launched it, which is not always a shell that
+-- sourced zshrc (Finder, a GUI launcher, a terminal opened before the dotfiles
+-- change). Without this, rustaceanvim silently reports "rust-analyzer is not
+-- executable" and never starts the client.
+--
+-- Homebrew's rustup is keg-only: the cargo/rustc/rust-analyzer proxies live in
+-- its own bin dir, and each one resolves the toolchain from the nearest
+-- rust-toolchain.toml.
+do
+  local uv = vim.uv or vim.loop
+  local extra = {
+    "/opt/homebrew/opt/rustup/bin", -- rustup toolchain proxies (keg-only)
+    vim.env.HOME .. "/.cargo/bin", -- binaries from `cargo install`
+  }
+  for _, dir in ipairs(extra) do
+    if uv.fs_stat(dir) and not (":" .. vim.env.PATH .. ":"):find(":" .. dir .. ":", 1, true) then
+      vim.env.PATH = dir .. ":" .. vim.env.PATH
+    end
+  end
+end

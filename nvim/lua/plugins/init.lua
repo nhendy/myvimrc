@@ -137,6 +137,52 @@ local plugins = {
     cond = not env.is_vscode,
   },
   {
+    "chomosuke/typst-preview.nvim",
+    commit = "325036ee145ca51d9efb145c09ac16bce3bc8b7d",
+    ft = "typst",
+    cond = not env.is_vscode,
+    init = function()
+      -- Detect .typ as typst before the plugin lazy-loads (built-in on nvim 0.11+).
+      vim.filetype.add({ extension = { typ = "typst" } })
+    end,
+    opts = {},
+  },
+  {
+    -- Standalone spec merges (by name) with the LuaSnip dependency of nvim-lspconfig.
+    -- Adds the jsregexp build + autosnippet config that typstar requires.
+    "L3MON4D3/LuaSnip",
+    commit = "dae4f5aaa3574bd0c2b9dd20fb9542a02c10471c",
+    build = "make install_jsregexp",
+    cond = not env.is_vscode,
+    config = function()
+      require("luasnip").config.setup({
+        enable_autosnippets = true,
+        store_selection_keys = "<Tab>", -- visual: select expr, <Tab>, type trigger -> wraps it
+        update_events = "TextChanged,TextChangedI", -- snappier auto-expansion
+      })
+    end,
+  },
+  {
+    "arne314/typstar",
+    commit = "08adde87b89a63eced1fcf69ee7850359413e50c",
+    ft = "typst",
+    cond = not env.is_vscode,
+    dependencies = { "L3MON4D3/LuaSnip" },
+    keys = {
+      -- Jumps remapped off <M-j> (owned by copilot accept_line); <M-t> toggle is free.
+      { "<M-t>", "<Cmd>TypstarToggleSnippets<CR>", mode = { "n", "i" }, desc = "Toggle Typst snippets" },
+      { "<C-j>", "<Cmd>TypstarSmartJump<CR>", mode = { "s", "i" }, desc = "Typst snippet: jump forward" },
+      { "<C-k>", "<Cmd>TypstarSmartJumpBack<CR>", mode = { "s", "i" }, desc = "Typst snippet: jump back" },
+    },
+    opts = {
+      snippets = {
+        -- Full default list + our own lua/typstar/snippets/custom.lua.
+        -- (typstar merges this list by index, so the defaults must be repeated.)
+        modules = { "letters", "math", "matrix", "markup", "theorems", "visual", "custom" },
+      },
+    },
+  },
+  {
     "heavenshell/vim-pydocstring",
     commit = "9da38e1bb70f5fc9f35ba5abf8ddada81fe2717a",
     init = function()
@@ -174,6 +220,41 @@ local plugins = {
     commit = "889b9a7515db477f4cb6808bef1769e53493c578",
   },
   {
+    -- Rust LSP. rustaceanvim OWNS the rust-analyzer client: it calls
+    -- vim.lsp.start itself, so rust_analyzer must NOT also be registered via
+    -- mason-lspconfig (see the automatic_enable exclude in config/lsp.lua) or
+    -- two clients attach and every diagnostic shows up twice.
+    "mrcjkb/rustaceanvim",
+    version = "^9",
+    ft = { "rust" },
+    cond = not env.is_vscode,
+    init = function()
+      -- Must be set before the plugin loads; rustaceanvim reads it at ft time.
+      -- cmd is left unset on purpose: it defaults to `rust-analyzer` on PATH,
+      -- which is the keg-only Homebrew rustup proxy (see zsh/zshrc). That proxy
+      -- resolves the toolchain from the nearest rust-toolchain.toml, so a repo
+      -- pinned to 1.95 is analyzed by 1.95's rust-analyzer.
+      vim.g.rustaceanvim = {
+        server = {
+          default_settings = {
+            ["rust-analyzer"] = {
+              cargo = { allFeatures = true, buildScripts = { enable = true } },
+              procMacro = { enable = true },
+              check = { command = "clippy", extraArgs = { "--no-deps" } },
+              inlayHints = {
+                bindingModeHints = { enable = false },
+                parameterHints = { enable = true },
+                typeHints = { enable = true },
+              },
+              files = { excludeDirs = { ".git", "target", ".venv" } },
+            },
+          },
+        },
+        tools = { hover_actions = { auto_focus = true } },
+      }
+    end,
+  },
+  {
     "czheo/mojo.vim",
     commit = "c5898c2e1137cd420524859f209b6831841397e4",
   },
@@ -200,6 +281,28 @@ local plugins = {
     commit = "5cb05e1b0fa3c469958a2b26f36b3fe930af221c",
     build = ":TSUpdate",
     cond = not env.is_vscode,
+    config = function()
+      -- main branch compiles parsers with the tree-sitter CLI (>= 0.26.1):
+      --   brew install tree-sitter-cli
+      -- The main branch also does NOT start highlighting on its own -- the
+      -- FileType autocmd in config/autocmds.lua calls vim.treesitter.start().
+      local ok, ts = pcall(require, "nvim-treesitter")
+      if not ok then
+        return
+      end
+      local want = {
+        "c", "cpp", "rust", "cmake", "starlark",
+        "python", "lua", "go", "bash", "json", "yaml", "toml",
+        "markdown", "markdown_inline", "typst",
+      }
+      local installed = ts.get_installed()
+      local missing = vim.tbl_filter(function(lang)
+        return not vim.tbl_contains(installed, lang)
+      end, want)
+      if #missing > 0 then
+        ts.install(missing)
+      end
+    end,
   },
   {
     "zbirenbaum/copilot.lua",
@@ -211,7 +314,9 @@ local plugins = {
         enabled = false,
       },
       suggestion = {
-        enabled = true,
+        -- Inline ghost text is handled by supermaven-nvim now (one engine at a
+        -- time). copilot stays loaded/authenticated as Avante's provider.
+        enabled = false,
         auto_trigger = true,
         keymap = {
           accept = "<M-l>",
@@ -223,6 +328,24 @@ local plugins = {
         },
       },
     },
+  },
+  {
+    "supermaven-inc/supermaven-nvim",
+    commit = "07d20fce48a5629686aefb0a7cd4b25e33947d50",
+    cond = not env.is_vscode,
+    event = "InsertEnter",
+    config = function()
+      -- Inline "ghost text" AI completion. Replaces copilot.lua's inline
+      -- suggestions (disabled below) — only one ghost-text engine at a time.
+      -- Accept keys mirror the old copilot bindings so muscle memory is unchanged.
+      require("supermaven-nvim").setup({
+        keymaps = {
+          accept_suggestion = "<C-l>",
+          accept_word = "<M-w>",
+          clear_suggestion = "<C-]>",
+        },
+      })
+    end,
   },
   {
     "stevearc/dressing.nvim",
@@ -331,6 +454,41 @@ local plugins = {
       },
       behavior = {
         auto_set_keymaps = false,
+      },
+    },
+  },
+  {
+    "coder/claudecode.nvim",
+    commit = "2390c6e45c4789072c293ac69de051d169668b29",
+    cond = not env.is_vscode,
+    dependencies = {
+      -- Terminal provider for the in-editor Claude session. Bare setup({}) is
+      -- enough; every other snacks module stays disabled/lazy by default.
+      { "folke/snacks.nvim", commit = "882c996cf28183f4d63640de0b4c02ec886d01f2", opts = {} },
+    },
+    -- Keymaps live in config/keymaps.lua (category "ai"); this cmd list is what
+    -- actually lazy-loads the plugin when one of those <cmd>ClaudeCode*<cr> fires.
+    cmd = {
+      "ClaudeCode",
+      "ClaudeCodeFocus",
+      "ClaudeCodeSelectModel",
+      "ClaudeCodeAdd",
+      "ClaudeCodeSend",
+      "ClaudeCodeTreeAdd",
+      "ClaudeCodeStatus",
+      "ClaudeCodeStart",
+      "ClaudeCodeStop",
+      "ClaudeCodeOpen",
+      "ClaudeCodeClose",
+      "ClaudeCodeDiffAccept",
+      "ClaudeCodeDiffDeny",
+      "ClaudeCodeCloseAllDiffs",
+    },
+    opts = {
+      terminal = {
+        provider = "snacks",
+        split_side = "right",
+        split_width_percentage = 0.30,
       },
     },
   },
