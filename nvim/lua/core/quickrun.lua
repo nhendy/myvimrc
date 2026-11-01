@@ -1,4 +1,5 @@
 local env = require("config.env")
+local vscode = require("core.vscode")
 local uv = vim.uv or vim.loop
 
 local M = {}
@@ -149,6 +150,12 @@ function M.run_in_vsplit_terminal(command)
   vim.cmd("startinsert")
 end
 
+-- VS Code / Cursor: same command, run in a terminal split to the right.
+function M.run_in_vscode_terminal(command)
+  M.last_command = command
+  vscode.run_in_side_terminal(command)
+end
+
 function M.show_last_command()
   if not M.last_command then
     vim.notify("No QuickRun command has been run yet", vim.log.levels.INFO)
@@ -157,13 +164,47 @@ function M.show_last_command()
   vim.notify("Last QuickRun command: " .. M.last_command, vim.log.levels.INFO)
 end
 
+-- VS Code / Cursor: build the command from workspace-relative facts reported by
+-- VS Code (see core/vscode.lua active_file_info), so it is right both locally
+-- and over Remote-SSH. The side terminal starts in the workspace root, so
+-- relative paths and `python -m <module>` resolve from there.
+function M.build_vscode_command(opts)
+  local info = vscode.active_file_info()
+  if not info or not info.rel then
+    return nil, "QuickRun: current file is not inside an open workspace folder"
+  end
+  local args = trim(opts.args or "")
+
+  if info.quickrun and trim(info.quickrun) ~= "" then
+    local cmd = trim((info.quickrun:gsub("\n", " ")))
+    return args ~= "" and (cmd .. " " .. args) or cmd
+  end
+
+  local ext = opts.filetype or vim.fn.fnamemodify(info.rel, ":e")
+  if ext == "python" then
+    ext = "py"
+  end
+  if ext == "py" then
+    local module = info.rel:gsub("\\", "/"):gsub("%.py$", ""):gsub("/", ".")
+    local prefix = info.python_project and "uv run python -m" or "python3 -m"
+    return string.format("%s %s %s", prefix, module, args)
+  end
+  return M.build_default_command({ file = info.rel, args = args, filetype = ext })
+end
+
 function M.run(opts)
+  opts = opts or {}
+
   if env.is_vscode then
-    vim.notify("QuickRun terminal split is disabled inside VSCode-Neovim", vim.log.levels.WARN)
+    local command, err = M.build_vscode_command(opts)
+    if not command then
+      vim.notify(err, vim.log.levels.ERROR)
+      return
+    end
+    M.run_in_vscode_terminal(command)
     return
   end
 
-  opts = opts or {}
   local command = M.find_config_command()
 
   if not command then
